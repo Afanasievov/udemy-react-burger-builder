@@ -14,13 +14,18 @@ const burger = (props) => {
   //       }));
 
   /* prettier-ignore */
-  const transformedIngredients = Object.entries(props.ingredients)
+  let transformedIngredients = Object.entries(props.ingredients)
     .map(([name, value]) =>
       [...Array(value)]
         .map((_, i) => {
           const key = name + i;
           return <BurgerIngredient key={key} type={name} />;
-        }));
+        }))
+    .reduce((memo, curr) => memo.concat(curr), []);
+
+  if (!transformedIngredients.length) {
+    transformedIngredients = <p>Please, start adding ingredients!</p>;
+  }
 
   return (
     <div className={classes.Burger}>
