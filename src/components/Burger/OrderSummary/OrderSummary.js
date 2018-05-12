@@ -4,7 +4,7 @@ import Aux from '../../../hoc/Aux';
 
 const orderSummary = ({ ingredients }) => {
   const ingredientSummary = Object.entries(ingredients).map(([key, value]) => (
-    <li key={value}>
+    <li key={key}>
       <span style={{ textTransform: 'capitalize' }}>{key}</span>: {value}
     </li>
   ));
