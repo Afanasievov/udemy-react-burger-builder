@@ -11,6 +11,8 @@ const sideDrawer = (props) => {
   if (props.open) {
     attachedClasses = [classes.SideDrawer, classes.Open];
   }
+  console.log('attachedClasses: ', attachedClasses);
+
   return (
     <Aux>
       <Backdrop show={props.open} clicked={props.closed} />
