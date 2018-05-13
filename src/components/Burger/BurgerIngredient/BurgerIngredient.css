@@ -115,10 +115,12 @@
 @media (min-width: 300px) {
   .BreadBottom {
     height: 40px;
+    width: 80%;
   }
   
   .BreadTop {
     height: 65px;
+    width: 80%;
   }
 }
 
