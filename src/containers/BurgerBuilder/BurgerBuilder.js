@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import queryString from 'query-string';
 
 import Aux from '../../hoc/Auxiliary/Aux';
 import Burger from '../../components/Burger/Burger';
@@ -106,7 +107,10 @@ class BurgerBuilder extends Component {
     //     this.setState({ loading: false, purchasing: false });
     //   });
 
-    this.props.history.push('/checkout');
+    this.props.history.push({
+      pathname: '/checkout',
+      search: `?${queryString.stringify(this.state.ingredients)}`,
+    });
   };
 
   render() {

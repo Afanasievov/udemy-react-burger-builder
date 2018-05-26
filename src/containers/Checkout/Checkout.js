@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import queryString from 'query-string';
 
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
 
@@ -11,6 +12,15 @@ class Checkout extends Component {
       bacon: 1,
     },
   };
+
+  componentDidMount() {
+    const ingredients = queryString.parse(this.props.location.search, { decode: true });
+    Object.entries(ingredients).forEach(([key, value]) => {
+      ingredients[key] = +value;
+    });
+    // eslint-disable-next-line
+    this.setState({ ingredients });
+  }
 
   checkoutCancelledHandler = () => {
     this.props.history.goBack();
