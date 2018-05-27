@@ -13,7 +13,7 @@ const burger = (props) => {
   //       }));
 
   let transformedIngredients = Object.entries(props.ingredients)
-    .filter(([name]) => name !== 'totalPrice')
+    // .filter(([name]) => name !== 'totalPrice')
     .map(([name, value]) =>
       [...Array(value)]
         .map((_, i) => {

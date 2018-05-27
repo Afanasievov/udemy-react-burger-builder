@@ -8,17 +8,19 @@ import ContactData from './ContactData/ContactData';
 class Checkout extends Component {
   state = {
     ingredients: null,
-    // price: 0,
+    totalPrice: 0,
   }
 
   componentWillMount() {
     const queryParams = queryString.parse(this.props.location.search);
+    const { totalPrice } = queryParams;
+    const ingredients = {};
     Object.entries(queryParams)
-      .filter(([key]) => key !== 'price')
+      .filter(([key]) => key !== 'totalPrice')
       .forEach(([key, value]) => {
-        queryParams[key] = +value;
+        ingredients[key] = +value;
       });
-    this.setState({ ingredients: queryParams, totalPrice: queryParams.price });
+    this.setState({ ingredients, totalPrice });
   }
 
   checkoutCancelledHandler = () => {
