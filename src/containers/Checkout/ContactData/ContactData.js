@@ -6,43 +6,52 @@ import Button from '../../../components/UI/Button/Button';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import Input from '../../../components/UI/Input/Input';
 
-const getFormInput = (elementType, configType, placeholder, value) => ({
-  elementType,
+const getFormInput = (type, placeholder, value) => ({
+  elementType: 'input',
   elementConfig: {
-    type: configType,
+    type,
     placeholder,
   },
   value,
 });
 
+const getFormSelect = (options) => ({
+  elementType: 'select',
+  elementConfig: {
+    options: options.map(([value, displayValue]) => ({
+      value,
+      displayValue,
+    })),
+  },
+});
+
 class ContactData extends Component {
   state = {
     orderForm: {
-      name: getFormInput('input', 'text', 'Your Name', ''),
-      street: getFormInput('input', 'text', 'Street', ''),
-      zipCode: getFormInput('input', 'text', 'ZIP Code', ''),
-      country: getFormInput('input', 'text', 'Country', ''),
-      email: getFormInput('input', 'email', 'Your E-Mail', ''),
-      deliveryMethod: {
-        elementType: 'select',
-        elementConfig: {
-          options: [
-            { value: 'fastest', displayValue: 'Fastest' },
-            { value: 'cheapest', displayValue: 'Cheapest' },
-          ],
-        },
-      },
+      name: getFormInput('text', 'Your Name', ''),
+      street: getFormInput('text', 'Street', ''),
+      zipCode: getFormInput('text', 'ZIP Code', ''),
+      country: getFormInput('text', 'Country', ''),
+      email: getFormInput('email', 'Your E-Mail', ''),
+      deliveryMethod: getFormSelect([
+        ['fastest', 'Fastest'],
+        ['cheapest', 'Cheapest'],
+      ]),
     },
     loading: false,
   }
 
   orderHandler = (event) => {
     event.preventDefault();
-
     this.setState({ loading: true });
+    const formData = {};
+    Object.entries(this.state.orderForm).forEach(([key, val]) => {
+      formData[key] = val.value;
+    });
     const order = {
       ingredients: this.props.ingredients,
       price: this.props.price,
+      orderData: formData,
     };
 
     axios
@@ -72,7 +81,7 @@ class ContactData extends Component {
     const formElementsArray = Object.entries(this.state.orderForm)
       .map(([key, val]) => ({ id: key, config: val }));
     let form = (
-      <form>
+      <form onSubmit={this.orderHandler}>
         {formElementsArray.map(({ id, config }) => (
           <Input
             key={id}
