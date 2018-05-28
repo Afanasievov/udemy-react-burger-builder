@@ -6,13 +6,15 @@ import Button from '../../../components/UI/Button/Button';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import Input from '../../../components/UI/Input/Input';
 
-const getFormInput = (type, placeholder, value) => ({
+const getFormInput = (type, placeholder, value, validation) => ({
   elementType: 'input',
   elementConfig: {
     type,
     placeholder,
   },
   value,
+  validation,
+  valid: false,
 });
 
 const getFormSelect = (options) => ({
@@ -28,11 +30,48 @@ const getFormSelect = (options) => ({
 class ContactData extends Component {
   state = {
     orderForm: {
-      name: getFormInput('text', 'Your Name', ''),
-      street: getFormInput('text', 'Street', ''),
-      zipCode: getFormInput('text', 'ZIP Code', ''),
-      country: getFormInput('text', 'Country', ''),
-      email: getFormInput('email', 'Your E-Mail', ''),
+      name: getFormInput(
+        'text',
+        'Your Name',
+        '',
+        {
+          required: true,
+        },
+      ),
+      street: getFormInput(
+        'text',
+        'Street',
+        '',
+        {
+          required: true,
+        },
+      ),
+      zipCode: getFormInput(
+        'text',
+        'ZIP Code',
+        '',
+        {
+          required: true,
+          minLength: 5,
+          maxLength: 5,
+        },
+      ),
+      country: getFormInput(
+        'text',
+        'Country',
+        '',
+        {
+          required: true,
+        },
+      ),
+      email: getFormInput(
+        'email',
+        'Your E-Mail',
+        '',
+        {
+          required: true,
+        },
+      ),
       deliveryMethod: getFormSelect([
         ['fastest', 'Fastest'],
         ['cheapest', 'Cheapest'],
@@ -65,6 +104,24 @@ class ContactData extends Component {
       });
   }
 
+  checkValidity = (value, rules) => {
+    let isValid = true;
+
+    if (rules.required) {
+      isValid = value.trim() !== '' && isValid;
+    }
+
+    if (rules.minLength) {
+      isValid = value.length >= rules.minLength && isValid;
+    }
+
+    if (rules.maxLength) {
+      isValid = value.length <= rules.maxLength && isValid;
+    }
+
+    return isValid;
+  }
+
   inputChangedHandler = (event, inputIdentifier) => {
     const updatedOrderForm = {
       ...this.state.orderForm,
@@ -73,6 +130,10 @@ class ContactData extends Component {
       ...updatedOrderForm[inputIdentifier],
     };
     updatedFormElement.value = event.target.value;
+    updatedFormElement.valid = this.checkValidity(
+      updatedFormElement.value,
+      updatedFormElement.validation,
+    );
     updatedOrderForm[inputIdentifier] = updatedFormElement;
     this.setState({ orderForm: updatedOrderForm });
   }
