@@ -5,6 +5,8 @@ import classes from './Input.css';
 const input = (props) => {
   let inputElement = null;
 
+  const changedHandler = (event) => props.changed(event, props.id);
+
   switch (props.elementType) {
     case 'input':
       inputElement = (
@@ -12,6 +14,7 @@ const input = (props) => {
           className={classes.InputElement}
           {...props.elementConfig}
           value={props.value}
+          onChange={changedHandler}
         />
       );
       break;
@@ -21,6 +24,7 @@ const input = (props) => {
           className={classes.InputElement}
           {...props.elementConfig}
           value={props.value}
+          onChange={changedHandler}
         />
       );
       break;
@@ -29,9 +33,15 @@ const input = (props) => {
         <select
           className={classes.InputElement}
           value={props.value}
+          onChange={changedHandler}
         >
           {props.elementConfig.options.map(({ value, displayValue }) => (
-            <option key={value} value={value}>{displayValue}</option>
+            <option
+              key={value}
+              value={value}
+            >
+              {displayValue}
+            </option>
           ))}
         </select>
       );
@@ -42,6 +52,7 @@ const input = (props) => {
           className={classes.InputElement}
           {...props.elementConfig}
           value={props.value}
+          onChange={changedHandler}
         />
       );
   }
