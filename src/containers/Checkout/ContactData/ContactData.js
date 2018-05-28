@@ -15,6 +15,7 @@ const getFormInput = (type, placeholder, value, validation) => ({
   value,
   validation,
   valid: false,
+  touched: false,
 });
 
 const getFormSelect = (options) => ({
@@ -25,6 +26,9 @@ const getFormSelect = (options) => ({
       displayValue,
     })),
   },
+  value: options[0][0],
+  validation: {},
+  valid: true,
 });
 
 class ContactData extends Component {
@@ -77,6 +81,7 @@ class ContactData extends Component {
         ['cheapest', 'Cheapest'],
       ]),
     },
+    formIsValid: false,
     loading: false,
   }
 
@@ -134,8 +139,12 @@ class ContactData extends Component {
       updatedFormElement.value,
       updatedFormElement.validation,
     );
+    updatedFormElement.touched = true;
     updatedOrderForm[inputIdentifier] = updatedFormElement;
-    this.setState({ orderForm: updatedOrderForm });
+
+    const formIsValid = !Object.values(updatedOrderForm)
+      .some(({ valid }) => valid !== true);
+    this.setState({ orderForm: updatedOrderForm, formIsValid });
   }
 
   render() {
@@ -151,10 +160,19 @@ class ContactData extends Component {
             elementType={config.elementType}
             elementConfig={config.elementConfig}
             value={config.value}
+            invalid={!config.valid}
+            shouldValidate={config.validation}
+            touched={config.touched}
             changed={this.inputChangedHandler}
           />
         ))}
-        <Button btnType="Success" clicked={this.orderHandler}>ORDER</Button>
+        <Button
+          btnType="Success"
+          clicked={this.orderHandler}
+          disabled={!this.state.formIsValid}
+        >
+          ORDER
+        </Button>
       </form>
     );
 
