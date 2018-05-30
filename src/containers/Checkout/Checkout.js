@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import queryString from 'query-string';
 import { Route } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
 import ContactData from './ContactData/ContactData';
@@ -41,7 +42,7 @@ class Checkout extends Component {
         <Route
           path={`${this.props.match.path}/contact-data`}
           render={
-            (props) => (
+            props => (
               <ContactData
                 ingredients={this.state.ingredients}
                 price={this.state.totalPrice}
@@ -54,5 +55,11 @@ class Checkout extends Component {
     );
   }
 }
+
+Checkout.propTypes = {
+  history: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  location: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  match: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+};
 
 export default Checkout;

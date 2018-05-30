@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import classes from './Order.css';
 
@@ -29,6 +30,11 @@ const order = (props) => {
       <p>Price: <strong>USD {props.price}</strong></p>
     </div>
   );
+};
+
+order.propTypes = {
+  ingredients: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.number)).isRequired,
+  price: PropTypes.string.isRequired,
 };
 
 export default order;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import classes from './BuildControls.css';
 import BuildControl from './BuildControl/BuildControl';
@@ -10,12 +11,12 @@ const controls = [
   { label: 'Meat', type: 'meat' },
 ];
 
-const buildControls = (props) => (
+const buildControls = props => (
   <div className={classes.BuildControls}>
     <p>
       Current Price: <strong>{props.price.toFixed(2)}</strong>
     </p>
-    {controls.map((ctrl) => (
+    {controls.map(ctrl => (
       <BuildControl
         key={ctrl.label}
         label={ctrl.label}
@@ -29,5 +30,12 @@ const buildControls = (props) => (
     </button>
   </div>
 );
+
+buildControls.propTypes = {
+  price: PropTypes.number.isRequired,
+  disabled: PropTypes.bool.isRequired,
+  purchasable: PropTypes.bool.isRequired,
+  ordered: PropTypes.func.isRequired,
+};
 
 export default buildControls;

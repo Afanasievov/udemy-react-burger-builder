@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import classes from './Input.css';
 
@@ -10,7 +11,7 @@ const input = (props) => {
     inputClasses.push(classes.Invalid);
   }
 
-  const changedHandler = (event) => props.changed(event, props.id);
+  const changedHandler = event => props.changed(event, props.id);
 
   switch (props.elementType) {
     case 'input':
@@ -68,6 +69,19 @@ const input = (props) => {
       {inputElement}
     </div>
   );
+};
+
+input.propTypes = {
+  key: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  elementType: PropTypes.string.isRequired,
+  elementConfig: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  invalid: PropTypes.bool.isRequired,
+  shouldValidate: PropTypes.bool.isRequired,
+  touched: PropTypes.bool.isRequired,
+  changed: PropTypes.bool.isRequired,
 };
 
 export default input;

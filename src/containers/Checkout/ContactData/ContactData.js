@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import axios from '../../../axios-orders';
 import classes from './ContactData.css';
@@ -18,7 +19,7 @@ const getFormInput = (type, placeholder, value, validation) => ({
   touched: false,
 });
 
-const getFormSelect = (options) => ({
+const getFormSelect = options => ({
   elementType: 'select',
   elementConfig: {
     options: options.map(([value, displayValue]) => ({
@@ -188,5 +189,11 @@ class ContactData extends Component {
     );
   }
 }
+
+ContactData.propTypes = {
+  ingredients: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.number)).isRequired,
+  price: PropTypes.string.isRequired,
+  history: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+};
 
 export default ContactData;

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import queryString from 'query-string';
+import PropTypes from 'prop-types';
 
 import Aux from '../../hoc/Auxiliary/Aux';
 import Burger from '../../components/Burger/Burger';
@@ -144,5 +145,9 @@ class BurgerBuilder extends Component {
     );
   }
 }
+
+BurgerBuilder.propTypes = {
+  history: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+};
 
 export default withErrorHandler(BurgerBuilder, axios);

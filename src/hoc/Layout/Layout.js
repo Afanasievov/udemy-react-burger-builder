@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import Aux from '../Auxiliary/Aux';
 import classes from './Layout.css';
@@ -15,7 +16,7 @@ class Layout extends Component {
   };
 
   sideDrawerToggleHandler = () => {
-    this.setState((prevState) => ({ showSideDrawer: !prevState.showSideDrawer }));
+    this.setState(prevState => ({ showSideDrawer: !prevState.showSideDrawer }));
   };
 
   render() {
@@ -28,5 +29,9 @@ class Layout extends Component {
     );
   }
 }
+
+Layout.propTypes = {
+  children: PropTypes.element.isRequired,
+};
 
 export default Layout;

@@ -29,7 +29,7 @@ class Orders extends Component {
   render() {
     let orders = <Spinner />;
     if (!this.state.loading) {
-      orders = this.state.orders.map((order) => (
+      orders = this.state.orders.map(order => (
         <Order {...order} />
       ));
     }
