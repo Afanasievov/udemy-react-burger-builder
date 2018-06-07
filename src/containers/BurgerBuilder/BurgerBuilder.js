@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import queryString from 'query-string';
 import PropTypes from 'prop-types';
 
 import Aux from '../../hoc/Auxiliary/Aux';
@@ -15,7 +14,6 @@ import * as actionTypes from '../../store/actions';
 
 class BurgerBuilder extends Component {
   state = {
-    purchasable: false,
     purchasing: false,
     loading: false,
     error: false,
@@ -32,9 +30,9 @@ class BurgerBuilder extends Component {
   //     });
   // }
 
-  updatePurchaseState(ingredients) {
-    const sum = Object.values(ingredients).reduce((memo, curr) => memo + curr, 0);
-    this.setState({ purchasable: sum > 0 });
+  updatePurchaseState() {
+    const sum = Object.values(this.props.ings).reduce((memo, curr) => memo + curr, 0);
+    return sum > 0;
   }
 
   // addIngredientHandler = (type) => {
@@ -77,14 +75,7 @@ class BurgerBuilder extends Component {
   };
 
   purchaseContinueHandler = () => {
-    const queryStr = queryString.stringify({
-      ...this.state.ingredients,
-      totalPrice: this.props.price,
-    });
-    this.props.history.push({
-      pathname: '/checkout',
-      search: `?${queryStr}`,
-    });
+    this.props.history.push('/checkout');
   };
 
   render() {
@@ -110,7 +101,7 @@ class BurgerBuilder extends Component {
             disabled={disabledInfo}
             price={this.props.price}
             ordered={this.purchaseHandler}
-            purchasable={this.state.purchasable}
+            purchasable={this.updatePurchaseState()}
           />
         </Aux>
       );

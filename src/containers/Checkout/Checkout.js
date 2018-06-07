@@ -1,29 +1,12 @@
 import React, { Component } from 'react';
-import queryString from 'query-string';
 import { Route } from 'react-router-dom';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
 import ContactData from './ContactData/ContactData';
 
 class Checkout extends Component {
-  state = {
-    ingredients: null,
-    totalPrice: 0,
-  }
-
-  componentWillMount() {
-    const queryParams = queryString.parse(this.props.location.search);
-    const { totalPrice } = queryParams;
-    const ingredients = {};
-    Object.entries(queryParams)
-      .filter(([key]) => key !== 'totalPrice')
-      .forEach(([key, value]) => {
-        ingredients[key] = +value;
-      });
-    this.setState({ ingredients, totalPrice });
-  }
-
   checkoutCancelledHandler = () => {
     this.props.history.goBack();
   };
@@ -35,21 +18,13 @@ class Checkout extends Component {
     return (
       <div>
         <CheckoutSummary
-          ingredients={this.state.ingredients}
+          ingredients={this.props.ings}
           checkoutCancelled={this.checkoutCancelledHandler}
           checkoutContinued={this.checkoutContinuedHandler}
         />
         <Route
           path={`${this.props.match.path}/contact-data`}
-          render={
-            props => (
-              <ContactData
-                ingredients={this.state.ingredients}
-                price={this.state.totalPrice}
-                {...props}
-              />
-            )
-          }
+          component={ContactData}
         />
       </div>
     );
@@ -58,8 +33,17 @@ class Checkout extends Component {
 
 Checkout.propTypes = {
   history: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  location: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  match: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  match: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types,
+  ings: PropTypes.shape({
+    salad: PropTypes.number.isRequired,
+    bacon: PropTypes.number.isRequired,
+    cheese: PropTypes.number.isRequired,
+    meat: PropTypes.number.isRequired,
+  }).isRequired,
 };
 
-export default Checkout;
+const mapStateToProps = state => ({
+  ings: state.ingredients,
+});
+
+export default connect(mapStateToProps)(Checkout);

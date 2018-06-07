@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import axios from '../../../axios-orders';
 import classes from './ContactData.css';
@@ -94,7 +95,7 @@ class ContactData extends Component {
       formData[key] = val.value;
     });
     const order = {
-      ingredients: this.props.ingredients,
+      ingredients: this.props.ings,
       price: this.props.price,
       orderData: formData,
     };
@@ -191,9 +192,19 @@ class ContactData extends Component {
 }
 
 ContactData.propTypes = {
-  ingredients: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.number)).isRequired,
-  price: PropTypes.string.isRequired,
   history: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  ings: PropTypes.shape({
+    salad: PropTypes.number.isRequired,
+    bacon: PropTypes.number.isRequired,
+    cheese: PropTypes.number.isRequired,
+    meat: PropTypes.number.isRequired,
+  }).isRequired,
+  price: PropTypes.string.isRequired,
 };
 
-export default ContactData;
+const mapToState = state => ({
+  ings: state.ingredients,
+  price: state.totalPrice,
+});
+
+export default connect(mapToState)(ContactData);
