@@ -37,7 +37,7 @@ const burger = (props) => {
 };
 
 burger.propTypes = {
-  ingredients: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.number)).isRequired,
+  ingredients: PropTypes.objectOf(PropTypes.number).isRequired,
 };
 
 export default burger;

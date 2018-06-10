@@ -33,7 +33,7 @@ const buildControls = props => (
 
 buildControls.propTypes = {
   price: PropTypes.number.isRequired,
-  disabled: PropTypes.bool.isRequired,
+  disabled: PropTypes.objectOf(PropTypes.bool).isRequired,
   purchasable: PropTypes.bool.isRequired,
   ordered: PropTypes.func.isRequired,
 };

@@ -19,7 +19,7 @@ const navigationItem = props => (
 navigationItem.propTypes = {
   link: PropTypes.string.isRequired,
   exact: PropTypes.bool.isRequired,
-  children: PropTypes.element.isRequired,
+  children: PropTypes.string.isRequired,
 };
 
 export default navigationItem;

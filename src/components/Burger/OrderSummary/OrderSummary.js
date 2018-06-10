@@ -19,10 +19,10 @@ const orderSummary = (props) => {
         <strong>Total Price: {props.price}</strong>
       </p>
       <p>Continue to Checkout?</p>
-      <Button btnType="Danger" clicked={props.purchaseCancelled}>
+      <Button btnType="Danger" disabled={false} clicked={props.purchaseCancelled}>
         CANCEL
       </Button>
-      <Button btnType="Success" clicked={props.purchaseContinued}>
+      <Button btnType="Success" disabled={false} clicked={props.purchaseContinued}>
         CONTINUE
       </Button>
     </Aux>
@@ -30,10 +30,10 @@ const orderSummary = (props) => {
 };
 
 orderSummary.propTypes = {
-  ingredients: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.number)).isRequired,
-  price: PropTypes.number.isRequired,
-  purchaseCancelled: PropTypes.bool.isRequired,
-  purchaseContinued: PropTypes.bool.isRequired,
+  ingredients: PropTypes.objectOf(PropTypes.number).isRequired,
+  price: PropTypes.string.isRequired,
+  purchaseCancelled: PropTypes.func.isRequired,
+  purchaseContinued: PropTypes.func.isRequired,
 };
 
 export default orderSummary;
