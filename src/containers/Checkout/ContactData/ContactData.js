@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import axios from '../../../axios-orders';
 import classes from './ContactData.css';
 import Button from '../../../components/UI/Button/Button';
 import Spinner from '../../../components/UI/Spinner/Spinner';
@@ -94,21 +93,11 @@ class ContactData extends Component {
     Object.entries(this.state.orderForm).forEach(([key, val]) => {
       formData[key] = val.value;
     });
-    const order = {
-      ingredients: this.props.ings,
-      price: this.props.price,
-      orderData: formData,
-    };
-
-    axios
-      .post('/orders.json', order)
-      .then(() => {
-        this.setState({ loading: false });
-        this.props.history.push('/');
-      })
-      .catch(() => {
-        this.setState({ loading: false });
-      });
+    // const order = {
+    //   ingredients: this.props.ings,
+    //   price: this.props.price,
+    //   orderData: formData,
+    // };
   }
 
   checkValidity = (value, rules) => {
@@ -191,16 +180,15 @@ class ContactData extends Component {
   }
 }
 
-ContactData.propTypes = {
-  history: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  ings: PropTypes.shape({
-    salad: PropTypes.number.isRequired,
-    bacon: PropTypes.number.isRequired,
-    cheese: PropTypes.number.isRequired,
-    meat: PropTypes.number.isRequired,
-  }).isRequired,
-  price: PropTypes.string.isRequired,
-};
+// ContactData.propTypes = {
+// ings: PropTypes.shape({
+//   salad: PropTypes.number.isRequired,
+//   bacon: PropTypes.number.isRequired,
+//   cheese: PropTypes.number.isRequired,
+//   meat: PropTypes.number.isRequired,
+// }).isRequired,
+// price: PropTypes.string.isRequired,
+// };
 
 const mapToState = state => ({
   ings: state.ingredients,
