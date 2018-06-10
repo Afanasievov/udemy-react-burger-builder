@@ -9,26 +9,17 @@ import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
-import axios from '../../axios-orders';
 import * as burgerBuilderActions from '../../store/actions';
+import axios from '../../axios-orders';
 
 class BurgerBuilder extends Component {
   state = {
     purchasing: false,
-    loading: false,
-    error: false,
   };
 
-  // componentDidMount() {
-  //   axios
-  //     .get('https://react-burger-builder-f06ca.firebaseio.com/ingredients.json')
-  //     .then((response) => {
-  //       this.setState({ ingredients: response.data });
-  //     })
-  //     .catch(() => {
-  //       this.setState({ error: true });
-  //     });
-  // }
+  componentDidMount() {
+    this.props.onInitIngredients();
+  }
 
   updatePurchaseState() {
     const sum = Object.values(this.props.ings).reduce((memo, curr) => memo + curr, 0);
@@ -89,7 +80,7 @@ class BurgerBuilder extends Component {
 
     let orderSummary = null;
 
-    let burger = this.state.error ? <p>Ingredients cannot be loaded!</p> : <Spinner />;
+    let burger = this.props.error ? <p>Ingredients cannot be loaded!</p> : <Spinner />;
 
     if (this.props.ings) {
       burger = (
@@ -132,20 +123,24 @@ class BurgerBuilder extends Component {
 
 BurgerBuilder.propTypes = {
   history: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  ings: PropTypes.shape({
-    salad: PropTypes.number.isRequired,
-    bacon: PropTypes.number.isRequired,
-    cheese: PropTypes.number.isRequired,
-    meat: PropTypes.number.isRequired,
-  }).isRequired,
-  price: PropTypes.number.isRequired,
+  ings: PropTypes.objectOf(PropTypes.number),
+  price: PropTypes.number,
+  error: PropTypes.bool,
   onIngredientAdded: PropTypes.func.isRequired,
   onIngredientRemoved: PropTypes.func.isRequired,
+  onInitIngredients: PropTypes.func.isRequired,
+};
+
+BurgerBuilder.defaultProps = {
+  ings: {},
+  price: 0,
+  error: false,
 };
 
 const mapStateToProps = state => ({
   ings: state.ingredients,
   price: state.totalPrice,
+  error: state.error,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -153,6 +148,8 @@ const mapDispatchToProps = dispatch => ({
     ingName => dispatch(burgerBuilderActions.addIngredient(ingName)),
   onIngredientRemoved:
     ingName => dispatch(burgerBuilderActions.removeIngredient(ingName)),
+  onInitIngredients:
+    () => dispatch(burgerBuilderActions.initIngredients()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(BurgerBuilder, axios));
