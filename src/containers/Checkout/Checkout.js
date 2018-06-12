@@ -16,7 +16,7 @@ class Checkout extends Component {
   };
   render() {
     let summary = <Redirect to="/" />;
-    if (this.props.ings) {
+    if (Object.keys(this.props.ings).length) {
       summary = (
         <div>
           <CheckoutSummary
@@ -38,15 +38,11 @@ class Checkout extends Component {
 Checkout.propTypes = {
   history: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   match: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types,
-  ings: PropTypes.objectOf(PropTypes.number),
-};
-
-Checkout.defaultProps = {
-  ings: null,
+  ings: PropTypes.objectOf(PropTypes.number).isRequired,
 };
 
 const mapStateToProps = state => ({
-  ings: state.ingredients,
+  ings: state.burgerBuilder.ingredients,
 });
 
 export default connect(mapStateToProps)(Checkout);
