@@ -72,16 +72,28 @@ const input = (props) => {
 };
 
 input.propTypes = {
-  key: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   elementType: PropTypes.string.isRequired,
-  elementConfig: PropTypes.string.isRequired,
+  elementConfig: PropTypes.shape({
+    elementType: PropTypes.string,
+    touched: PropTypes.bool,
+    valid: PropTypes.bool,
+    validation: PropTypes.shape({
+      required: PropTypes.bool,
+    }),
+    value: PropTypes.string,
+    options: PropTypes.array,
+  }).isRequired,
   value: PropTypes.string.isRequired,
   invalid: PropTypes.bool.isRequired,
-  shouldValidate: PropTypes.bool.isRequired,
-  touched: PropTypes.bool.isRequired,
-  changed: PropTypes.bool.isRequired,
+  shouldValidate: PropTypes.shape({}).isRequired,
+  touched: PropTypes.bool,
+  changed: PropTypes.func.isRequired,
+};
+
+input.defaultProps = {
+  touched: false,
 };
 
 export default input;

@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import classes from './ContactData.css';
 import Button from '../../../components/UI/Button/Button';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import Input from '../../../components/UI/Input/Input';
+import axios from '../../../axios-orders';
+import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
+import * as actions from '../../../store/actions';
 
 const getFormInput = (type, placeholder, value, validation) => ({
   elementType: 'input',
   elementConfig: {
     type,
     placeholder,
+    label: placeholder,
   },
   value,
   validation,
@@ -19,9 +23,10 @@ const getFormInput = (type, placeholder, value, validation) => ({
   touched: false,
 });
 
-const getFormSelect = options => ({
+const getFormSelect = (options, label) => ({
   elementType: 'select',
   elementConfig: {
+    label,
     options: options.map(([value, displayValue]) => ({
       value,
       displayValue,
@@ -80,24 +85,24 @@ class ContactData extends Component {
       deliveryMethod: getFormSelect([
         ['fastest', 'Fastest'],
         ['cheapest', 'Cheapest'],
-      ]),
+      ], 'Delivery Method'),
     },
     formIsValid: false,
-    loading: false,
   }
 
   orderHandler = (event) => {
     event.preventDefault();
-    this.setState({ loading: true });
     const formData = {};
     Object.entries(this.state.orderForm).forEach(([key, val]) => {
       formData[key] = val.value;
     });
-    // const order = {
-    //   ingredients: this.props.ings,
-    //   price: this.props.price,
-    //   orderData: formData,
-    // };
+    const order = {
+      ingredients: this.props.ings,
+      price: this.props.price,
+      orderData: formData,
+    };
+
+    this.props.onOrderBurger(order);
   }
 
   checkValidity = (value, rules) => {
@@ -147,7 +152,7 @@ class ContactData extends Component {
           <Input
             key={id}
             id={id}
-            label={config.elementConfig.placeholder}
+            label={config.elementConfig.label}
             elementType={config.elementType}
             elementConfig={config.elementConfig}
             value={config.value}
@@ -167,7 +172,7 @@ class ContactData extends Component {
       </form>
     );
 
-    if (this.state.loading) {
+    if (this.props.loading) {
       form = <Spinner />;
     }
 
@@ -180,19 +185,25 @@ class ContactData extends Component {
   }
 }
 
-// ContactData.propTypes = {
-// ings: PropTypes.shape({
-//   salad: PropTypes.number.isRequired,
-//   bacon: PropTypes.number.isRequired,
-//   cheese: PropTypes.number.isRequired,
-//   meat: PropTypes.number.isRequired,
-// }).isRequired,
-// price: PropTypes.string.isRequired,
-// };
+ContactData.propTypes = {
+  ings: PropTypes.objectOf(PropTypes.number).isRequired,
+  price: PropTypes.number.isRequired,
+  loading: PropTypes.bool,
+  onOrderBurger: PropTypes.func.isRequired,
+};
+
+ContactData.defaultProps = {
+  loading: false,
+};
 
 const mapToState = state => ({
   ings: state.ingredients,
   price: state.totalPrice,
+  loading: state.loading,
 });
 
-export default connect(mapToState)(ContactData);
+const mapDispatchToProps = dispatch => ({
+  onOrderBurger: orderData => dispatch(actions.purchaseBurger(orderData)),
+});
+
+export default connect(mapToState, mapDispatchToProps)(withErrorHandler(ContactData, axios));

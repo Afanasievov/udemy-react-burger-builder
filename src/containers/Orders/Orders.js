@@ -14,7 +14,6 @@ class Orders extends Component {
   componentDidMount() {
     axios.get('orders.json')
       .then((res) => {
-        console.log('res: ', res);
         const fetchedOrders = Object.entries(res.data)
           .map(([key, value]) => ({ ...value, id: key }));
 

@@ -21,7 +21,7 @@ const checkoutSummary = props => (
 );
 
 checkoutSummary.propTypes = {
-  ingredients: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.number)).isRequired,
+  ingredients: PropTypes.objectOf(PropTypes.number).isRequired,
   checkoutCancelled: PropTypes.func.isRequired,
   checkoutContinued: PropTypes.func.isRequired,
 };

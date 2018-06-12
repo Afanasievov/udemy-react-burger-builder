@@ -16,7 +16,7 @@ const orderSummary = (props) => {
       <p>A delicious burger with the following ingredients:</p>
       <ul>{ingredientSummary}</ul>
       <p>
-        <strong>Total Price: {props.price}</strong>
+        <strong>Total Price: {props.price.toFixed(2)}</strong>
       </p>
       <p>Continue to Checkout?</p>
       <Button btnType="Danger" disabled={false} clicked={props.purchaseCancelled}>
@@ -31,7 +31,7 @@ const orderSummary = (props) => {
 
 orderSummary.propTypes = {
   ingredients: PropTypes.objectOf(PropTypes.number).isRequired,
-  price: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
   purchaseCancelled: PropTypes.func.isRequired,
   purchaseContinued: PropTypes.func.isRequired,
 };
