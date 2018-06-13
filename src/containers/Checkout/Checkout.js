@@ -17,8 +17,10 @@ class Checkout extends Component {
   render() {
     let summary = <Redirect to="/" />;
     if (Object.keys(this.props.ings).length) {
+      const purchasedRedirect = this.props.purchased ? <Redirect to="/" /> : null;
       summary = (
         <div>
+          {purchasedRedirect}
           <CheckoutSummary
             ingredients={this.props.ings}
             checkoutCancelled={this.checkoutCancelledHandler}
@@ -39,10 +41,12 @@ Checkout.propTypes = {
   history: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   match: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types,
   ings: PropTypes.objectOf(PropTypes.number).isRequired,
+  purchased: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
   ings: state.burgerBuilder.ingredients,
+  purchased: state.order.purchased,
 });
 
 export default connect(mapStateToProps)(Checkout);
