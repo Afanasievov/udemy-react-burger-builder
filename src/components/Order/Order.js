@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 import classes from './Order.css';
 
 const order = (props) => {
-  // const ingrdientOutpout = '';
+  // const ingredientOutput = '';
   // Object.entries(props.ingredients)
-  // .forEach(([key, value]) => { ingrdientOutpout[key] = value; });
+  // .forEach(([key, value]) => { ingredientOutput[key] = value; });
 
-  const ingrdientOutpout = Object.entries(props.ingredients)
+  const ingredientOutput = Object.entries(props.ingredients)
     .map(([key, value]) => (
       <span
         key={key}
@@ -26,8 +26,8 @@ const order = (props) => {
 
   return (
     <div className={classes.Order}>
-      <p>Ingredients:{ingrdientOutpout}</p>
-      <p>Price: <strong>USD {props.price}</strong></p>
+      <p>Ingredients:{ingredientOutput}</p>
+      <p>Price: <strong>USD {props.price.toFixed(2)}</strong></p>
     </div>
   );
 };
