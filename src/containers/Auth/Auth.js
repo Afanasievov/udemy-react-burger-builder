@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import Button from '../../components/UI/Button/Button';
 import {
@@ -7,6 +9,7 @@ import {
   checkValidity,
 } from '../../utils/forms';
 import classes from './Auth.css';
+import * as actions from '../../store/actions';
 
 class Auth extends Component {
   state = {
@@ -45,10 +48,15 @@ class Auth extends Component {
     this.setState({ controls: updatedControls });
   }
 
+  submitHandler = (event) => {
+    event.preventDefault();
+    this.props.onAuth(this.state.controls.email.value, this.state.controls.password.value);
+  }
+
   render() {
     const formInputs = getFormElementsArray(this.state.controls, this.inputChangedHandler);
     const form = (
-      <form onSubmit={this.orderHandler}>
+      <form onSubmit={this.submitHandler}>
         {formInputs}
         <Button
           btnType="Success"
@@ -66,4 +74,12 @@ class Auth extends Component {
   }
 }
 
-export default Auth;
+Auth.propTypes = {
+  onAuth: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = dispatch => ({
+  onAuth: (email, password) => dispatch(actions.auth(email, password)),
+});
+
+export default connect(null, mapDispatchToProps)(Auth);
