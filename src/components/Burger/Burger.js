@@ -13,7 +13,6 @@ const burger = (props) => {
   //         return <BurgerIngredient key={key} type={igKey} />;
   //       }));
 
-  console.log('props.ingredients: ', props.ingredients);
   let transformedIngredients = Object.entries(props.ingredients)
     // .filter(([name]) => name !== 'totalPrice')
     .map(([name, value]) =>

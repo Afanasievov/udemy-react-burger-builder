@@ -5,83 +5,62 @@ import { connect } from 'react-redux';
 import classes from './ContactData.css';
 import Button from '../../../components/UI/Button/Button';
 import Spinner from '../../../components/UI/Spinner/Spinner';
-import Input from '../../../components/UI/Input/Input';
 import axios from '../../../axios-orders';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 import * as actions from '../../../store/actions';
-
-const getFormInput = (type, placeholder, value, validation) => ({
-  elementType: 'input',
-  elementConfig: {
-    type,
-    placeholder,
-    label: placeholder,
-  },
-  value,
-  validation,
-  valid: false,
-  touched: false,
-});
-
-const getFormSelect = (options, label) => ({
-  elementType: 'select',
-  elementConfig: {
-    label,
-    options: options.map(([value, displayValue]) => ({
-      value,
-      displayValue,
-    })),
-  },
-  value: options[0][0],
-  validation: {},
-  valid: true,
-});
+import {
+  getFormInput,
+  getFormSelect,
+  getFormElementsArray,
+  checkValidity,
+} from '../../../utils/forms';
 
 class ContactData extends Component {
   state = {
     orderForm: {
-      name: getFormInput(
-        'text',
-        'Your Name',
-        '',
-        {
+      name: getFormInput({
+        type: 'text',
+        placeholder: 'Your Name',
+        value: '',
+        validation: {
           required: true,
         },
-      ),
-      street: getFormInput(
-        'text',
-        'Street',
-        '',
-        {
+      }),
+      street: getFormInput({
+        type: 'text',
+        placeholder: 'Street',
+        value: '',
+        validation: {
           required: true,
         },
-      ),
-      zipCode: getFormInput(
-        'text',
-        'ZIP Code',
-        '',
-        {
+      }),
+      zipCode: getFormInput({
+        type: 'text',
+        placeholder: 'ZIP Code',
+        value: '',
+        validation: {
           required: true,
           minLength: 5,
           maxLength: 5,
         },
-      ),
-      country: getFormInput(
-        'text',
-        'Country',
-        '',
-        {
+      }),
+      country: getFormInput({
+        type: 'text',
+        placeholder: 'Country',
+        value: '',
+        validation: {
           required: true,
         },
-      ),
-      email: getFormInput(
-        'email',
-        'Your E-Mail',
-        '',
-        {
+      }),
+      email: getFormInput({
+        type: 'email',
+        placeholder: 'Your E-Mail',
+        value: '',
+        validation: {
           required: true,
+          email: true,
         },
-      ),
+      }),
       deliveryMethod: getFormSelect([
         ['fastest', 'Fastest'],
         ['cheapest', 'Cheapest'],
@@ -105,24 +84,6 @@ class ContactData extends Component {
     this.props.onOrderBurger(order);
   }
 
-  checkValidity = (value, rules) => {
-    let isValid = true;
-
-    if (rules.required) {
-      isValid = value.trim() !== '' && isValid;
-    }
-
-    if (rules.minLength) {
-      isValid = value.length >= rules.minLength && isValid;
-    }
-
-    if (rules.maxLength) {
-      isValid = value.length <= rules.maxLength && isValid;
-    }
-
-    return isValid;
-  }
-
   inputChangedHandler = (event, inputIdentifier) => {
     const updatedOrderForm = {
       ...this.state.orderForm,
@@ -131,7 +92,7 @@ class ContactData extends Component {
       ...updatedOrderForm[inputIdentifier],
     };
     updatedFormElement.value = event.target.value;
-    updatedFormElement.valid = this.checkValidity(
+    updatedFormElement.valid = checkValidity(
       updatedFormElement.value,
       updatedFormElement.validation,
     );
@@ -144,24 +105,10 @@ class ContactData extends Component {
   }
 
   render() {
-    const formElementsArray = Object.entries(this.state.orderForm)
-      .map(([key, val]) => ({ id: key, config: val }));
+    const formInputs = getFormElementsArray(this.state.orderForm, this.inputChangedHandler);
     let form = (
       <form onSubmit={this.orderHandler}>
-        {formElementsArray.map(({ id, config }) => (
-          <Input
-            key={id}
-            id={id}
-            label={config.elementConfig.label}
-            elementType={config.elementType}
-            elementConfig={config.elementConfig}
-            value={config.value}
-            invalid={!config.valid}
-            shouldValidate={config.validation}
-            touched={config.touched}
-            changed={this.inputChangedHandler}
-          />
-        ))}
+        {formInputs}
         <Button
           btnType="Success"
           clicked={this.orderHandler}
