@@ -19,13 +19,13 @@ const authSuccess = (state, action) => updateObject(
     token: action.idToken,
     userId: action.userId,
     error: null,
-    loading: true,
+    loading: false,
   },
 );
 
-const authFail = state => updateObject(
+const authFail = (state, action) => updateObject(
   state,
-  { error: null, loading: true },
+  { error: action.error, loading: false },
 );
 
 const reducer = (state = initialState, action) => {

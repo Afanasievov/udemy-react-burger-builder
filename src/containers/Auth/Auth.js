@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import Button from '../../components/UI/Button/Button';
+import Spinner from '../../components/UI/Spinner/Spinner';
 import {
   getFormInput,
   getFormElementsArray,
@@ -66,7 +67,7 @@ class Auth extends Component {
 
   render() {
     const formInputs = getFormElementsArray(this.state.controls, this.inputChangedHandler);
-    const form = (
+    let form = (
       <form onSubmit={this.submitHandler}>
         {formInputs}
         <Button
@@ -77,9 +78,17 @@ class Auth extends Component {
         </Button>
       </form>
     );
+
+    if (this.props.loading) {
+      form = <Spinner />;
+    }
+
+    const errorMessage = this.props.error && this.props.error.message;
+
     const mode = `SWITCH TO ${this.state.isSignIn ? 'SIGNUP' : 'SIGNIN'}`;
     return (
       <div className={classes.Auth}>
+        {errorMessage}
         {form}
         <Button
           btnType="Danger"
@@ -94,10 +103,21 @@ class Auth extends Component {
 
 Auth.propTypes = {
   onAuth: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  error: PropTypes.shape({ message: PropTypes.string }),
 };
+
+Auth.defaultProps = {
+  error: null,
+};
+
+const mapStateToProps = state => ({
+  loading: state.auth.loading,
+  error: state.auth.error,
+});
 
 const mapDispatchToProps = dispatch => ({
   onAuth: (email, password, isSignIn) => dispatch(actions.auth(email, password, isSignIn)),
 });
 
-export default connect(null, mapDispatchToProps)(Auth);
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);

@@ -14,7 +14,7 @@ export const authSuccess = (idToken, userId) => ({
 });
 
 export const authFail = error => ({
-  type: actionTypes.AUTH_SUCCESS,
+  type: actionTypes.AUTH_FAIL,
   error,
 });
 
@@ -27,12 +27,6 @@ export const auth = (email, password, isSignIn) => (dispatch) => {
   };
   const path = isSignIn ? API.AUTH.SIGN_IN : API.AUTH.SIGN_UP;
   axios.post(`${API.AUTH.BASE_URL}${path}${process.env.REACT_APP_FIREBASE_KEY}`, authData)
-    .then((response) => {
-      console.log('auth response: ', response);
-      dispatch(authSuccess(response.data.idToken, response.data.localId));
-    })
-    .catch((err) => {
-      console.log('auth err: ', err);
-      dispatch(authSuccess(err));
-    });
+    .then(response => dispatch(authSuccess(response.data.idToken, response.data.localId)))
+    .catch((err => dispatch(authFail(err.response.data.error))));
 };
