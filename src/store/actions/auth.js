@@ -18,6 +18,15 @@ export const authFail = error => ({
   error,
 });
 
+const logout = () => ({
+  type: actionTypes.AUTH_LOGOUT,
+});
+
+const checkAuthTimeout = expirationTime => dispatch =>
+  setTimeout(() => {
+    dispatch(logout());
+  }, expirationTime * 1000);
+
 export const auth = (email, password, isSignIn) => (dispatch) => {
   dispatch(authStart());
   const authData = {
@@ -27,6 +36,9 @@ export const auth = (email, password, isSignIn) => (dispatch) => {
   };
   const path = isSignIn ? API.AUTH.SIGN_IN : API.AUTH.SIGN_UP;
   axios.post(`${API.AUTH.BASE_URL}${path}${process.env.REACT_APP_FIREBASE_KEY}`, authData)
-    .then(response => dispatch(authSuccess(response.data.idToken, response.data.localId)))
+    .then((response) => {
+      dispatch(authSuccess(response.data.idToken, response.data.localId));
+      dispatch(checkAuthTimeout(response.data.expiresIn));
+    })
     .catch((err => dispatch(authFail(err.response.data.error))));
 };
