@@ -17,14 +17,15 @@ export const authFail = error => ({
   error,
 });
 
-export const auth = (email, password) => (dispatch) => {
+export const auth = (email, password, isSignIn) => (dispatch) => {
   dispatch(authStart());
   const authData = {
     email,
     password,
     returnSecureToken: true,
   };
-  axios.post(`${API.AUTH.BASE_URL}${API.AUTH.SIGN_UP}${process.env.REACT_APP_FIREBASE_KEY}`, authData)
+  const path = isSignIn ? API.AUTH.SIGN_IN : API.AUTH.SIGN_UP;
+  axios.post(`${API.AUTH.BASE_URL}${path}${process.env.REACT_APP_FIREBASE_KEY}`, authData)
     .then((response) => {
       console.log('auth response: ', response);
       dispatch(authSuccess(response.data));

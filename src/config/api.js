@@ -2,6 +2,7 @@
 
 export const AUTH = {
   BASE_URL: process.env.REACT_APP_AUTH_BASE_URL,
+  SIGN_IN: 'verifyPassword?key=',
   SIGN_UP: 'signupNewUser?key=',
 };
 export const BURGER_BUILDER = {
