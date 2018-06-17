@@ -77,6 +77,7 @@ class Auth extends Component {
         </Button>
       </form>
     );
+    const mode = `SWITCH TO ${this.state.isSignIn ? 'SIGNUP' : 'SIGNIN'}`;
     return (
       <div className={classes.Auth}>
         {form}
@@ -84,7 +85,7 @@ class Auth extends Component {
           btnType="Danger"
           clicked={this.switchAuthModeHandler}
         >
-          SWITCH TO {this.state.isSignIn ? 'SIGNUP' : 'SIGNIN'}
+          {mode}
         </Button>
       </div>
     );

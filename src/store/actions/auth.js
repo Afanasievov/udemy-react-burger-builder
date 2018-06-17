@@ -7,9 +7,10 @@ export const authStart = () => ({
   type: actionTypes.AUTH_START,
 });
 
-export const authSuccess = authData => ({
+export const authSuccess = (idToken, userId) => ({
   type: actionTypes.AUTH_SUCCESS,
-  authData,
+  idToken,
+  userId,
 });
 
 export const authFail = error => ({
@@ -28,7 +29,7 @@ export const auth = (email, password, isSignIn) => (dispatch) => {
   axios.post(`${API.AUTH.BASE_URL}${path}${process.env.REACT_APP_FIREBASE_KEY}`, authData)
     .then((response) => {
       console.log('auth response: ', response);
-      dispatch(authSuccess(response.data));
+      dispatch(authSuccess(response.data.idToken, response.data.localId));
     })
     .catch((err) => {
       console.log('auth err: ', err);

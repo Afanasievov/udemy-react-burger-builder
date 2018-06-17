@@ -16,7 +16,7 @@ class Checkout extends Component {
   };
   render() {
     let summary = <Redirect to="/" />;
-    if (Object.keys(this.props.ings).length) {
+    if (this.props.ings) {
       const purchasedRedirect = this.props.purchased ? <Redirect to="/" /> : null;
       summary = (
         <div>
@@ -40,8 +40,12 @@ class Checkout extends Component {
 Checkout.propTypes = {
   history: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   match: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types,
-  ings: PropTypes.objectOf(PropTypes.number).isRequired,
+  ings: PropTypes.objectOf(PropTypes.number),
   purchased: PropTypes.bool.isRequired,
+};
+
+Checkout.defaultProps = {
+  ings: null,
 };
 
 const mapStateToProps = state => ({
