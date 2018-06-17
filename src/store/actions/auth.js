@@ -2,7 +2,6 @@ import axios from 'axios';
 
 import * as actionTypes from './actionTypes';
 import * as API from '../../config/api';
-import { FIREBASE_KEY } from '../../config/creds';
 
 export const authStart = () => ({
   type: actionTypes.AUTH_START,
@@ -25,7 +24,7 @@ export const auth = (email, password) => (dispatch) => {
     password,
     returnSecureToken: true,
   };
-  axios.post(`${API.AUTH.BASE_URL}${API.AUTH.SIGN_UP}${FIREBASE_KEY}`, authData)
+  axios.post(`${API.AUTH.BASE_URL}${API.AUTH.SIGN_UP}${process.env.REACT_APP_FIREBASE_KEY}`, authData)
     .then((response) => {
       console.log('auth response: ', response);
       dispatch(authSuccess(response.data));
