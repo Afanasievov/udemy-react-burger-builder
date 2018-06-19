@@ -1,5 +1,6 @@
 import * as actionTypes from './actionTypes';
 import axios from '../../axios-orders';
+import { BURGER_BUILDER } from '../../config/api';
 
 export const purchaseBurgerSuccess = (id, orderData) => ({
   type: actionTypes.PURCHASE_BURGER_SUCCESS,
@@ -16,10 +17,10 @@ export const purchaseBurgerStart = () => ({
   type: actionTypes.PURCHASE_BURGER_START,
 });
 
-export const purchaseBurger = orderData => (dispatch) => {
+export const purchaseBurger = (orderData, token) => (dispatch) => {
   dispatch(purchaseBurgerStart());
   axios
-    .post('/orders.json', orderData)
+    .post(`${BURGER_BUILDER.PATH_ORDERS}${token}`, orderData)
     .then(response => dispatch(purchaseBurgerSuccess(response.data.name, orderData)))
     .catch(error => dispatch(purchaseBurgerFail(error)));
 };
@@ -38,13 +39,13 @@ export const fetchOrderFail = error => ({
   error,
 });
 
-export const fetchOrderStart = () => ({
+export const fetchOrdersStart = () => ({
   type: actionTypes.FETCH_ORDERS_START,
 });
 
-export const fetchOrders = () => (dispatch) => {
-  dispatch(fetchOrderStart());
-  axios.get('orders.json')
+export const fetchOrders = token => (dispatch) => {
+  dispatch(fetchOrdersStart());
+  axios.get(`${BURGER_BUILDER.PATH_ORDERS}${token}`)
     .then((res) => {
       const fetchedOrders = Object.entries(res.data)
         .map(([key, value]) => ({ ...value, id: key }));

@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-import { AUTH } from './config/api';
+import { BURGER_BUILDER } from './config/api';
 
 const instance = axios.create({
-  baseURL: AUTH.BASE_URL,
+  baseURL: BURGER_BUILDER.BASE_URL,
 });
 
 export default instance;

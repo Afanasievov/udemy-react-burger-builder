@@ -33,7 +33,7 @@ const order = (props) => {
 };
 
 order.propTypes = {
-  ingredients: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.number)).isRequired,
+  ingredients: PropTypes.objectOf(PropTypes.number).isRequired,
   price: PropTypes.number.isRequired,
 };
 

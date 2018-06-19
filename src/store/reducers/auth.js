@@ -2,8 +2,8 @@ import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../utility';
 
 const initialState = {
-  token: '',
-  userId: '',
+  token: null,
+  userId: null,
   error: null,
   loading: false,
 };
@@ -28,11 +28,13 @@ const authFail = (state, action) => updateObject(
   { error: action.error, loading: false },
 );
 
-const authLogout = state => updateObject({
-  ...state,
-  token: null,
-  userId: null,
-});
+const authLogout = state => updateObject(
+  state,
+  {
+    token: null,
+    userId: null,
+  },
+);
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -41,7 +43,7 @@ const reducer = (state = initialState, action) => {
     case actionTypes.AUTH_FAIL: return authFail(state, action);
     case actionTypes.AUTH_LOGOUT: return authLogout(state);
     default:
-      return initialState;
+      return state;
   }
 };
 

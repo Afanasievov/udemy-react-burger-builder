@@ -7,4 +7,5 @@ export const AUTH = {
 };
 export const BURGER_BUILDER = {
   BASE_URL: 'https://react-burger-builder-f06ca.firebaseio.com/',
+  PATH_ORDERS: 'orders.json?auth=',
 };

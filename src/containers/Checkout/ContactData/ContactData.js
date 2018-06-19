@@ -81,7 +81,7 @@ class ContactData extends Component {
       orderData: formData,
     };
 
-    this.props.onOrderBurger(order);
+    this.props.onOrderBurger(order, this.props.token);
   }
 
   inputChangedHandler = (event, inputIdentifier) => {
@@ -137,20 +137,22 @@ ContactData.propTypes = {
   price: PropTypes.number.isRequired,
   loading: PropTypes.bool,
   onOrderBurger: PropTypes.func.isRequired,
+  token: PropTypes.string.isRequired,
 };
 
 ContactData.defaultProps = {
   loading: false,
 };
 
-const mapToState = state => ({
+const mapStateToProps = state => ({
   ings: state.burgerBuilder.ingredients,
   price: state.burgerBuilder.totalPrice,
   loading: state.order.loading,
+  token: state.auth.token,
 });
 
 const mapDispatchToProps = dispatch => ({
-  onOrderBurger: orderData => dispatch(actions.purchaseBurger(orderData)),
+  onOrderBurger: (orderData, token) => dispatch(actions.purchaseBurger(orderData, token)),
 });
 
-export default connect(mapToState, mapDispatchToProps)(withErrorHandler(ContactData, axios));
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(ContactData, axios));
