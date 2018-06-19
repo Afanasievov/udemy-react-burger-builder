@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 
 import Button from '../../components/UI/Button/Button';
 import Spinner from '../../components/UI/Spinner/Spinner';
@@ -86,8 +87,12 @@ class Auth extends Component {
     const errorMessage = this.props.error && this.props.error.message;
 
     const mode = `SWITCH TO ${this.state.isSignIn ? 'SIGNUP' : 'SIGNIN'}`;
+
+    const authRedirect = this.props.isAuthenticated ? <Redirect to="/" /> : null;
+
     return (
       <div className={classes.Auth}>
+        {authRedirect}
         {errorMessage}
         {form}
         <Button
@@ -105,6 +110,7 @@ Auth.propTypes = {
   onAuth: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
   error: PropTypes.shape({ message: PropTypes.string }),
+  isAuthenticated: PropTypes.bool.isRequired,
 };
 
 Auth.defaultProps = {
@@ -114,6 +120,7 @@ Auth.defaultProps = {
 const mapStateToProps = state => ({
   loading: state.auth.loading,
   error: state.auth.error,
+  isAuthenticated: state.auth.token !== null,
 });
 
 const mapDispatchToProps = dispatch => ({
