@@ -21,7 +21,7 @@ const sideDrawer = (props) => {
           <Logo />
         </div>
         <nav>
-          <NavigationItems />
+          <NavigationItems isAuthenticated={props.isAuth} />
         </nav>
       </div>
     </Aux>
@@ -31,6 +31,7 @@ const sideDrawer = (props) => {
 sideDrawer.propTypes = {
   open: PropTypes.bool.isRequired,
   closed: PropTypes.func.isRequired,
+  isAuth: PropTypes.bool.isRequired,
 };
 
 export default sideDrawer;
