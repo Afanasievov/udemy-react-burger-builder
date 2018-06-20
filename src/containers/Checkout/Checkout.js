@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
 import ContactData from './ContactData/ContactData';
+import * as paths from '../../config/paths';
 
 class Checkout extends Component {
   checkoutCancelledHandler = () => {
@@ -15,9 +16,9 @@ class Checkout extends Component {
     this.props.history.replace('/checkout/contact-data');
   };
   render() {
-    let summary = <Redirect to="/" />;
+    let summary = <Redirect to={paths.DEFAULT} />;
     if (this.props.ings) {
-      const purchasedRedirect = this.props.purchased ? <Redirect to="/" /> : null;
+      const purchasedRedirect = this.props.purchased ? <Redirect to={paths.DEFAULT} /> : null;
       summary = (
         <div>
           {purchasedRedirect}

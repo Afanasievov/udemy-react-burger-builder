@@ -12,6 +12,7 @@ import {
 } from '../../utils/forms';
 import classes from './Auth.css';
 import * as actions from '../../store/actions';
+import * as paths from '../../config/paths';
 
 class Auth extends Component {
   state = {
@@ -36,6 +37,12 @@ class Auth extends Component {
       }),
     },
     isSignIn: true,
+  }
+
+  componentDidMount() {
+    if (!this.props.buildingBurger && this.props.authRedirectPath !== paths.DEFAULT) {
+      this.props.onSetAuthRedirectPath();
+    }
   }
 
   inputChangedHandler = (event, controlName) => {
@@ -88,7 +95,9 @@ class Auth extends Component {
 
     const mode = `SWITCH TO ${this.state.isSignIn ? 'SIGNUP' : 'SIGNIN'}`;
 
-    const authRedirect = this.props.isAuthenticated ? <Redirect to="/" /> : null;
+    const authRedirect = this.props.isAuthenticated
+      ? <Redirect to={this.props.authRedirectPath} />
+      : null;
 
     return (
       <div className={classes.Auth}>
@@ -111,6 +120,9 @@ Auth.propTypes = {
   loading: PropTypes.bool.isRequired,
   error: PropTypes.shape({ message: PropTypes.string }),
   isAuthenticated: PropTypes.bool.isRequired,
+  buildingBurger: PropTypes.bool.isRequired,
+  authRedirectPath: PropTypes.string.isRequired,
+  onSetAuthRedirectPath: PropTypes.func.isRequired,
 };
 
 Auth.defaultProps = {
@@ -121,10 +133,13 @@ const mapStateToProps = state => ({
   loading: state.auth.loading,
   error: state.auth.error,
   isAuthenticated: state.auth.token !== null,
+  buildingBurger: state.burgerBuilder.building,
+  authRedirectPath: state.auth.authRedirectPath,
 });
 
 const mapDispatchToProps = dispatch => ({
   onAuth: (email, password, isSignIn) => dispatch(actions.auth(email, password, isSignIn)),
+  onSetAuthRedirectPath: () => dispatch(actions.setAuthRedirectPath(paths.DEFAULT)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Auth);

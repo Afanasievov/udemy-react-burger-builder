@@ -11,6 +11,7 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import * as actions from '../../store/actions';
 import axios from '../../axios-orders';
+import * as paths from '../../config/paths';
 
 class BurgerBuilder extends Component {
   state = {
@@ -25,43 +26,12 @@ class BurgerBuilder extends Component {
     const sum = Object.values(this.props.ings).reduce((memo, curr) => memo + curr, 0);
     return sum > 0;
   }
-
-  // addIngredientHandler = (type) => {
-  //   const oldCount = this.state.ingredients[type];
-  //   const updatedCount = oldCount + 1;
-  //   const updatedIngredients = {
-  //     ...this.state.ingredients,
-  //   };
-  //   updatedIngredients[type] = updatedCount;
-  //   const priceAddition = INGREDIENT_PRICES[type];
-  //   const oldPrice = this.state.totalPrice;
-  //   const newPrice = oldPrice + priceAddition;
-  //   this.setState({ totalPrice: newPrice, ingredients: updatedIngredients });
-  //   this.updatePurchaseState(updatedIngredients);
-  // };
-
-  // removeIngredientHandler = (type) => {
-  //   const oldCount = this.state.ingredients[type];
-  //   if (oldCount <= 0) {
-  //     return;
-  //   }
-  //   const updatedCount = oldCount - 1;
-  //   const updatedIngredients = {
-  //     ...this.state.ingredients,
-  //   };
-  //   updatedIngredients[type] = updatedCount;
-  //   const priceSubtraction = INGREDIENT_PRICES[type];
-  //   const oldPrice = this.state.totalPrice;
-  //   const newPrice = oldPrice - priceSubtraction;
-  //   this.setState({ totalPrice: newPrice, ingredients: updatedIngredients });
-  //   this.updatePurchaseState(updatedIngredients);
-  // };
-
   purchaseHandler = () => {
     if (this.props.isAuthenticated) {
       this.setState({ purchasing: true });
     } else {
-      this.props.history.push('/auth');
+      this.props.onSetAuthRedirectPath(paths.CHECKOUT);
+      this.props.history.push(paths.AUTH);
     }
   };
 
@@ -72,7 +42,7 @@ class BurgerBuilder extends Component {
 
   purchaseContinueHandler = () => {
     this.props.onInitPurchase();
-    this.props.history.push('/checkout');
+    this.props.history.push(paths.CHECKOUT);
   };
 
   render() {
@@ -138,6 +108,7 @@ BurgerBuilder.propTypes = {
   onInitIngredients: PropTypes.func.isRequired,
   onInitPurchase: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
+  onSetAuthRedirectPath: PropTypes.func.isRequired,
 };
 
 BurgerBuilder.defaultProps = {
@@ -161,6 +132,7 @@ const mapDispatchToProps = dispatch => ({
   onInitIngredients:
     () => dispatch(actions.initIngredients()),
   onInitPurchase: () => dispatch(actions.purchaseInit()),
+  onSetAuthRedirectPath: path => dispatch(actions.setAuthRedirectPath(path)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(BurgerBuilder, axios));

@@ -7,15 +7,16 @@ import Logout from './containers/Auth/Logout/Logout';
 import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder';
 import Checkout from './containers/Checkout/Checkout';
 import Orders from './containers/Orders/Orders';
+import * as paths from './config/paths';
 
 const app = () => (
   <Layout>
     <Switch>
-      <Route path="/checkout" component={Checkout} />
-      <Route path="/orders" component={Orders} />
-      <Route path="/auth" component={Auth} />
-      <Route path="/logout" component={Logout} />
-      <Route path="/" component={BurgerBuilder} />
+      <Route path={paths.CHECKOUT} component={Checkout} />
+      <Route path={paths.ORDERS} component={Orders} />
+      <Route path={paths.AUTH} component={Auth} />
+      <Route path={paths.LOGOUT} component={Logout} />
+      <Route path={paths.DEFAULT} component={BurgerBuilder} />
     </Switch>
   </Layout>
 );
