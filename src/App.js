@@ -1,5 +1,7 @@
-import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import React, { Component } from 'react';
+import { Route, Switch, withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import Layout from './hoc/Layout/Layout';
 import Auth from './containers/Auth/Auth';
@@ -8,17 +10,33 @@ import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder';
 import Checkout from './containers/Checkout/Checkout';
 import Orders from './containers/Orders/Orders';
 import * as paths from './config/paths';
+import * as actions from './store/actions';
 
-const app = () => (
-  <Layout>
-    <Switch>
-      <Route path={paths.CHECKOUT} component={Checkout} />
-      <Route path={paths.ORDERS} component={Orders} />
-      <Route path={paths.AUTH} component={Auth} />
-      <Route path={paths.LOGOUT} component={Logout} />
-      <Route path={paths.DEFAULT} component={BurgerBuilder} />
-    </Switch>
-  </Layout>
-);
+class App extends Component {
+  componentDidMount() {
+    this.props.onTryAutoSignup();
+  }
+  render() {
+    return (
+      <Layout>
+        <Switch>
+          <Route path={paths.CHECKOUT} component={Checkout} />
+          <Route path={paths.ORDERS} component={Orders} />
+          <Route path={paths.AUTH} component={Auth} />
+          <Route path={paths.LOGOUT} component={Logout} />
+          <Route path={paths.DEFAULT} component={BurgerBuilder} />
+        </Switch>
+      </Layout>
+    );
+  }
+}
 
-export default app;
+App.propTypes = {
+  onTryAutoSignup: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = dispatch => ({
+  onTryAutoSignup: () => dispatch(actions.authCheckState()),
+});
+
+export default withRouter(connect(null, mapDispatchToProps)(App));
