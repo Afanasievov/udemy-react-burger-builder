@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Switch, withRouter } from 'react-router-dom';
+import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -17,15 +17,28 @@ class App extends Component {
     this.props.onTryAutoSignup();
   }
   render() {
-    return (
-      <Layout>
+    let routes = (
+      <Switch>
+        <Route path={paths.AUTH} component={Auth} />
+        <Route path={paths.DEFAULT} exact component={BurgerBuilder} />
+        <Redirect to="/" />
+      </Switch>
+    );
+
+    if (this.props.isAuthenticated) {
+      routes = (
         <Switch>
           <Route path={paths.CHECKOUT} component={Checkout} />
           <Route path={paths.ORDERS} component={Orders} />
-          <Route path={paths.AUTH} component={Auth} />
           <Route path={paths.LOGOUT} component={Logout} />
-          <Route path={paths.DEFAULT} component={BurgerBuilder} />
+          <Route path={paths.DEFAULT} exact component={BurgerBuilder} />
+          <Redirect to={paths.DEFAULT} />
         </Switch>
+      );
+    }
+    return (
+      <Layout>
+        {routes}
       </Layout>
     );
   }
@@ -33,10 +46,15 @@ class App extends Component {
 
 App.propTypes = {
   onTryAutoSignup: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
 };
+
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.token !== null,
+});
 
 const mapDispatchToProps = dispatch => ({
   onTryAutoSignup: () => dispatch(actions.authCheckState()),
 });
 
-export default withRouter(connect(null, mapDispatchToProps)(App));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
