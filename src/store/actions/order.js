@@ -43,9 +43,10 @@ export const fetchOrdersStart = () => ({
   type: actionTypes.FETCH_ORDERS_START,
 });
 
-export const fetchOrders = token => (dispatch) => {
+export const fetchOrders = (token, userId) => (dispatch) => {
   dispatch(fetchOrdersStart());
-  axios.get(`${BURGER_BUILDER.PATH_ORDERS}${token}`)
+  const queryParams = `${token}&orderBy="userId"&equalTo="${userId}"`;
+  axios.get(`${BURGER_BUILDER.PATH_ORDERS}${queryParams}`)
     .then((res) => {
       const fetchedOrders = Object.entries(res.data)
         .map(([key, value]) => ({ ...value, id: key }));
