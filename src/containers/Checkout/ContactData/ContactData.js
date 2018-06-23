@@ -13,7 +13,8 @@ import {
   getFormSelect,
   getFormElementsArray,
   checkValidity,
-} from '../../../utils/forms';
+} from '../../../shared/forms';
+import { updateObject } from '../../../shared/utility';
 
 class ContactData extends Component {
   state = {
@@ -86,20 +87,17 @@ class ContactData extends Component {
   }
 
   inputChangedHandler = (event, inputIdentifier) => {
-    const updatedOrderForm = {
-      ...this.state.orderForm,
-    };
-    const updatedFormElement = {
-      ...updatedOrderForm[inputIdentifier],
-    };
-    updatedFormElement.value = event.target.value;
-    updatedFormElement.valid = checkValidity(
-      updatedFormElement.value,
-      updatedFormElement.validation,
+    const updatedFormElement = updateObject(
+      this.state.orderForm[inputIdentifier],
+      {
+        value: event.target.value,
+        valid: checkValidity(event.target.value, this.state.orderForm[inputIdentifier].validation),
+        touched: true,
+      },
     );
-    updatedFormElement.touched = true;
-    updatedOrderForm[inputIdentifier] = updatedFormElement;
-
+    const updatedOrderForm = updateObject(this.state.orderForm, {
+      [inputIdentifier]: updatedFormElement,
+    });
     const formIsValid = !Object.values(updatedOrderForm)
       .some(({ valid }) => valid !== true);
     this.setState({ orderForm: updatedOrderForm, formIsValid });
