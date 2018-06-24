@@ -13,7 +13,7 @@ import * as actions from '../../store/actions';
 import axios from '../../axios-orders';
 import * as PATHS from '../../constants/paths';
 
-class BurgerBuilder extends Component {
+export class BurgerBuilder extends Component {
   state = {
     purchasing: false,
   };
@@ -107,7 +107,7 @@ BurgerBuilder.propTypes = {
   onIngredientRemoved: PropTypes.func.isRequired,
   onInitIngredients: PropTypes.func.isRequired,
   onInitPurchase: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired,
+  isAuthenticated: PropTypes.bool,
   onSetAuthRedirectPath: PropTypes.func.isRequired,
 };
 
@@ -115,6 +115,7 @@ BurgerBuilder.defaultProps = {
   ings: {},
   price: 0,
   error: false,
+  isAuthenticated: false,
 };
 
 const mapStateToProps = state => ({
