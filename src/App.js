@@ -7,7 +7,7 @@ import asyncComponent from './hoc/asyncComponent/asyncComponent';
 import Layout from './hoc/Layout/Layout';
 import Logout from './containers/Auth/Logout/Logout';
 import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder';
-import * as paths from './config/paths';
+import * as PATHS from './constants/paths';
 import * as actions from './store/actions';
 
 const asyncCheckout = asyncComponent(() => import('./containers/Checkout/Checkout'));
@@ -21,8 +21,8 @@ class App extends Component {
   render() {
     let routes = (
       <Switch>
-        <Route path={paths.AUTH} component={asyncAuth} />
-        <Route path={paths.DEFAULT} exact component={BurgerBuilder} />
+        <Route path={PATHS.AUTH} component={asyncAuth} />
+        <Route path={PATHS.DEFAULT} exact component={BurgerBuilder} />
         <Redirect to="/" />
       </Switch>
     );
@@ -30,12 +30,12 @@ class App extends Component {
     if (this.props.isAuthenticated) {
       routes = (
         <Switch>
-          <Route path={paths.CHECKOUT} component={asyncCheckout} />
-          <Route path={paths.ORDERS} component={asyncOrders} />
-          <Route path={paths.LOGOUT} component={Logout} />
-          <Route path={paths.AUTH} component={asyncAuth} />
-          <Route path={paths.DEFAULT} exact component={BurgerBuilder} />
-          <Redirect to={paths.DEFAULT} />
+          <Route path={PATHS.CHECKOUT} component={asyncCheckout} />
+          <Route path={PATHS.ORDERS} component={asyncOrders} />
+          <Route path={PATHS.LOGOUT} component={Logout} />
+          <Route path={PATHS.AUTH} component={asyncAuth} />
+          <Route path={PATHS.DEFAULT} exact component={BurgerBuilder} />
+          <Redirect to={PATHS.DEFAULT} />
         </Switch>
       );
     }

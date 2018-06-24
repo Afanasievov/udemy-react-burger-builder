@@ -1,6 +1,6 @@
 import * as actionTypes from './actionTypes';
 import axios from '../../axios-orders';
-import { BURGER_BUILDER } from '../../config/api';
+import { BURGER_BUILDER } from '../../constants/api';
 
 export const purchaseBurgerSuccess = (id, orderData) => ({
   type: actionTypes.PURCHASE_BURGER_SUCCESS,

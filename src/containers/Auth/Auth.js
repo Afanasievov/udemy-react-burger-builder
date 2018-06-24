@@ -12,7 +12,7 @@ import {
 } from '../../shared/forms';
 import classes from './Auth.css';
 import * as actions from '../../store/actions';
-import * as paths from '../../config/paths';
+import * as PATHS from '../../constants/paths';
 import { updateObject } from '../../shared/utility';
 
 class Auth extends Component {
@@ -41,7 +41,7 @@ class Auth extends Component {
   }
 
   componentDidMount() {
-    if (!this.props.buildingBurger && this.props.authRedirectPath !== paths.DEFAULT) {
+    if (!this.props.buildingBurger && this.props.authRedirectPath !== PATHS.DEFAULT) {
       this.props.onSetAuthRedirectPath();
     }
   }
@@ -139,7 +139,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   onAuth: (email, password, isSignIn) => dispatch(actions.auth(email, password, isSignIn)),
-  onSetAuthRedirectPath: () => dispatch(actions.setAuthRedirectPath(paths.DEFAULT)),
+  onSetAuthRedirectPath: () => dispatch(actions.setAuthRedirectPath(PATHS.DEFAULT)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Auth);

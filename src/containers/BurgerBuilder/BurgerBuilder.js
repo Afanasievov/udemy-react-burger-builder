@@ -11,7 +11,7 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import * as actions from '../../store/actions';
 import axios from '../../axios-orders';
-import * as paths from '../../config/paths';
+import * as PATHS from '../../constants/paths';
 
 class BurgerBuilder extends Component {
   state = {
@@ -30,8 +30,8 @@ class BurgerBuilder extends Component {
     if (this.props.isAuthenticated) {
       this.setState({ purchasing: true });
     } else {
-      this.props.onSetAuthRedirectPath(paths.CHECKOUT);
-      this.props.history.push(paths.AUTH);
+      this.props.onSetAuthRedirectPath(PATHS.CHECKOUT);
+      this.props.history.push(PATHS.AUTH);
     }
   };
 
@@ -42,7 +42,7 @@ class BurgerBuilder extends Component {
 
   purchaseContinueHandler = () => {
     this.props.onInitPurchase();
-    this.props.history.push(paths.CHECKOUT);
+    this.props.history.push(PATHS.CHECKOUT);
   };
 
   render() {

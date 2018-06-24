@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import * as actions from '../../../store/actions';
-import * as paths from '../../../config/paths';
+import * as PATHS from '../../../constants/paths';
 
 class Logout extends Component {
   componentDidMount() {
@@ -12,7 +12,7 @@ class Logout extends Component {
   }
 
   render() {
-    return <Redirect to={paths.DEFAULT} />;
+    return <Redirect to={PATHS.DEFAULT} />;
   }
 }
 

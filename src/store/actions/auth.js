@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 import * as actionTypes from './actionTypes';
-import * as API from '../../config/api';
-import * as LS from '../../config/localStorage';
+import * as API from '../../constants/api';
+import * as LS from '../../constants/localStorage';
 
 export const authStart = () => ({
   type: actionTypes.AUTH_START,
