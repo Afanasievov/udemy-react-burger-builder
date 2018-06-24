@@ -15,7 +15,7 @@ const allowedNodeEnvs = [
   'production',
 ];
 
-process.env.NODE_ENV = process.argv[2] || allowedNodeEnvs[0];
+process.env.NODE_ENV = process.env.NODE_ENV || process.argv[2] || allowedNodeEnvs[0];
 const NODE_ENV = process.env.NODE_ENV;
 
 if (!allowedNodeEnvs.includes(process.env.NODE_ENV)) {
