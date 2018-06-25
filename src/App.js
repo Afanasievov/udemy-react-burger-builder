@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import asyncComponent from './hoc/asyncComponent/asyncComponent';
 import Layout from './hoc/Layout/Layout';
 import Logout from './containers/Auth/Logout/Logout';
-import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder';
+import { BurgerBuilder } from './containers/BurgerBuilder/BurgerBuilder';
 import * as PATHS from './constants/paths';
 import * as actions from './store/actions';
 
