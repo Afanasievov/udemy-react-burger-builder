@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import asyncComponent from './hoc/asyncComponent/asyncComponent';
 import Layout from './hoc/Layout/Layout';
 import Logout from './containers/Auth/Logout/Logout';
-import { BurgerBuilder } from './containers/BurgerBuilder/BurgerBuilder';
+import BurgerBuilderCmp from './containers/BurgerBuilder/BurgerBuilder';
 import * as PATHS from './constants/paths';
 import * as actions from './store/actions';
 
@@ -22,7 +22,7 @@ class App extends Component {
     let routes = (
       <Switch>
         <Route path={PATHS.AUTH} component={asyncAuth} />
-        <Route path={PATHS.DEFAULT} exact component={BurgerBuilder} />
+        <Route path={PATHS.DEFAULT} exact component={BurgerBuilderCmp} />
         <Redirect to="/" />
       </Switch>
     );
@@ -34,7 +34,7 @@ class App extends Component {
           <Route path={PATHS.ORDERS} component={asyncOrders} />
           <Route path={PATHS.LOGOUT} component={Logout} />
           <Route path={PATHS.AUTH} component={asyncAuth} />
-          <Route path={PATHS.DEFAULT} exact component={BurgerBuilder} />
+          <Route path={PATHS.DEFAULT} exact component={BurgerBuilderCmp} />
           <Redirect to={PATHS.DEFAULT} />
         </Switch>
       );
