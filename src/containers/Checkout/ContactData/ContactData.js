@@ -132,7 +132,7 @@ class ContactData extends Component {
 }
 
 ContactData.propTypes = {
-  ings: PropTypes.objectOf(PropTypes.number).isRequired,
+  ings: PropTypes.arrayOf(PropTypes.string).isRequired,
   price: PropTypes.number.isRequired,
   loading: PropTypes.bool,
   onOrderBurger: PropTypes.func.isRequired,
@@ -145,7 +145,7 @@ ContactData.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-  ings: state.burgerBuilder.ingredients,
+  ings: state.burgerBuilder.orderIngredients,
   price: state.burgerBuilder.totalPrice,
   loading: state.order.loading,
   token: state.auth.token,

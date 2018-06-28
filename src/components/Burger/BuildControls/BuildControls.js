@@ -4,25 +4,18 @@ import PropTypes from 'prop-types';
 import classes from './BuildControls.css';
 import BuildControl from './BuildControl/BuildControl';
 
-const controls = [
-  { label: 'Salad', type: 'salad' },
-  { label: 'Bacon', type: 'bacon' },
-  { label: 'Cheese', type: 'cheese' },
-  { label: 'Meat', type: 'meat' },
-];
-
 const buildControls = props => (
   <div className={classes.BuildControls}>
     <p>
       Current Price: <strong>{props.price.toFixed(2)}</strong>
     </p>
-    {controls.map(ctrl => (
+    {Object.keys(props.ingredients).map(key => (
       <BuildControl
-        key={ctrl.label}
-        label={ctrl.label}
-        added={() => props.ingredientAdded(ctrl.type)}
-        removed={() => props.ingredientRemoved(ctrl.type)}
-        disabled={!!props.disabled[ctrl.type]}
+        key={key}
+        label={key}
+        added={() => props.ingredientAdded(key)}
+        removed={() => props.ingredientRemoved(key)}
+        disabled={props.disabled[key]}
       />
     ))}
     <button
@@ -36,6 +29,7 @@ const buildControls = props => (
 );
 
 buildControls.propTypes = {
+  ingredients: PropTypes.objectOf(PropTypes.number).isRequired,
   price: PropTypes.number.isRequired,
   disabled: PropTypes.objectOf(PropTypes.bool).isRequired,
   purchasable: PropTypes.bool.isRequired,

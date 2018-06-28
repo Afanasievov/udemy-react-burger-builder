@@ -30,7 +30,7 @@ class Orders extends Component {
 
 Orders.propTypes = {
   orders: PropTypes.arrayOf(PropTypes.shape({
-    ingredients: PropTypes.objectOf(PropTypes.number),
+    ingredients: PropTypes.arrayOf(PropTypes.string),
     orderData: PropTypes.objectOf(PropTypes.any).isRequired,
     price: PropTypes.number.isRequired,
   })).isRequired,

@@ -51,7 +51,7 @@ export class BurgerBuilder extends Component {
     };
 
     Object.keys(disabledInfo).forEach((key) => {
-      disabledInfo[key] = disabledInfo[key] <= 0;
+      disabledInfo[key] = !this.props.orderIngredients.includes(key);
     });
 
     let orderSummary = null;
@@ -61,8 +61,9 @@ export class BurgerBuilder extends Component {
     if (this.props.ings) {
       burger = (
         <Aux>
-          <Burger ingredients={this.props.ings} />
+          <Burger ingredients={this.props.orderIngredients} />
           <BuildControls
+            ingredients={this.props.ings}
             ingredientAdded={this.props.onIngredientAdded}
             ingredientRemoved={this.props.onIngredientRemoved}
             disabled={disabledInfo}
@@ -76,6 +77,7 @@ export class BurgerBuilder extends Component {
       orderSummary = (
         <OrderSummary
           ingredients={this.props.ings}
+          orderIngredients={this.props.orderIngredients}
           price={this.props.price}
           purchaseCancelled={this.purchaseCancelHandler}
           purchaseContinued={this.purchaseContinueHandler}
@@ -101,6 +103,7 @@ export class BurgerBuilder extends Component {
 BurgerBuilder.propTypes = {
   history: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   ings: PropTypes.objectOf(PropTypes.number),
+  orderIngredients: PropTypes.arrayOf(PropTypes.string),
   price: PropTypes.number,
   error: PropTypes.bool,
   onIngredientAdded: PropTypes.func.isRequired,
@@ -113,6 +116,7 @@ BurgerBuilder.propTypes = {
 
 BurgerBuilder.defaultProps = {
   ings: {},
+  orderIngredients: [],
   price: 0,
   error: false,
   isAuthenticated: false,
@@ -120,6 +124,7 @@ BurgerBuilder.defaultProps = {
 
 const mapStateToProps = state => ({
   ings: state.burgerBuilder.ingredients,
+  orderIngredients: state.burgerBuilder.orderIngredients,
   price: state.burgerBuilder.totalPrice,
   error: state.burgerBuilder.error,
   isAuthenticated: state.auth.token !== null,

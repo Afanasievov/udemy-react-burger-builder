@@ -20,7 +20,7 @@ export const purchaseBurgerStart = () => ({
 export const purchaseBurger = (orderData, token) => (dispatch) => {
   dispatch(purchaseBurgerStart());
   axios
-    .post(`${BURGER_BUILDER.PATH_ORDERS}${token}`, orderData)
+    .post(`${BURGER_BUILDER.ORDERS}${token}`, orderData)
     .then(response => dispatch(purchaseBurgerSuccess(response.data.name, orderData)))
     .catch(error => dispatch(purchaseBurgerFail(error)));
 };
@@ -46,7 +46,7 @@ export const fetchOrdersStart = () => ({
 export const fetchOrders = (token, userId) => (dispatch) => {
   dispatch(fetchOrdersStart());
   const queryParams = `${token}&orderBy="userId"&equalTo="${userId}"`;
-  axios.get(`${BURGER_BUILDER.PATH_ORDERS}${queryParams}`)
+  axios.get(`${BURGER_BUILDER.ORDERS}${queryParams}`)
     .then((res) => {
       const fetchedOrders = Object.entries(res.data)
         .map(([key, value]) => ({ ...value, id: key }));

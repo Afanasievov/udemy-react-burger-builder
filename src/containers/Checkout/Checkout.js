@@ -17,7 +17,7 @@ class Checkout extends Component {
   };
   render() {
     let summary = <Redirect to={PATHS.DEFAULT} />;
-    if (this.props.ings) {
+    if (this.props.ings.length) {
       const purchasedRedirect = this.props.purchased ? <Redirect to={PATHS.DEFAULT} /> : null;
       summary = (
         <div>
@@ -41,16 +41,12 @@ class Checkout extends Component {
 Checkout.propTypes = {
   history: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   match: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types,
-  ings: PropTypes.objectOf(PropTypes.number),
+  ings: PropTypes.arrayOf(PropTypes.string).isRequired,
   purchased: PropTypes.bool.isRequired,
 };
 
-Checkout.defaultProps = {
-  ings: null,
-};
-
 const mapStateToProps = state => ({
-  ings: state.burgerBuilder.ingredients,
+  ings: state.burgerBuilder.orderIngredients,
   purchased: state.order.purchased,
 });
 

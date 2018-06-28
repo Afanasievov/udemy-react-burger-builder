@@ -2,16 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import classes from './Order.css';
+import { countArrayElements } from '../../shared/utility';
 
 const order = (props) => {
-  // const ingredientOutput = '';
-  // Object.entries(props.ingredients)
-  // .forEach(([key, value]) => { ingredientOutput[key] = value; });
-
-  const ingredientOutput = Object.entries(props.ingredients)
-    .map(([key, value]) => (
+  const ingredientOutput = props.ingredients
+    .filter((ing, i) => props.ingredients.indexOf(ing) === i)
+    .map(ing => (
       <span
-        key={key}
+        key={ing}
         style={{
           textTransform: 'capitalize',
           display: 'inline-block',
@@ -20,7 +18,7 @@ const order = (props) => {
           padding: '5px',
         }}
       >
-        {key} ({value})
+        {ing} ({countArrayElements(props.ingredients, ing)})
       </span>
     ));
 
@@ -33,7 +31,7 @@ const order = (props) => {
 };
 
 order.propTypes = {
-  ingredients: PropTypes.objectOf(PropTypes.number).isRequired,
+  ingredients: PropTypes.arrayOf(PropTypes.string).isRequired,
   price: PropTypes.number.isRequired,
 };
 

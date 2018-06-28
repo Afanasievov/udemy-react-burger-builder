@@ -3,13 +3,20 @@ import PropTypes from 'prop-types';
 
 import Aux from '../../../hoc/Auxiliary/Aux';
 import Button from '../../UI/Button/Button';
+import { countArrayElements } from '../../../shared/utility';
 
 const orderSummary = (props) => {
-  const ingredientSummary = Object.entries(props.ingredients).map(([key, value]) => (
-    <li key={key}>
-      <span style={{ textTransform: 'capitalize' }}>{key}</span>: {value}
-    </li>
-  ));
+  const ingredientSummary = props.orderIngredients
+    .filter((ing, i) => props.orderIngredients.indexOf(ing) === i)
+    .map((ing) => {
+      const count = countArrayElements(props.orderIngredients, ing);
+      return (
+        <li key={ing}>
+          <span style={{ textTransform: 'capitalize' }}>{ing}</span>: {count}
+        </li>
+      );
+    });
+
   return (
     <Aux>
       <h3>Your Order</h3>
@@ -30,7 +37,7 @@ const orderSummary = (props) => {
 };
 
 orderSummary.propTypes = {
-  ingredients: PropTypes.objectOf(PropTypes.number).isRequired,
+  orderIngredients: PropTypes.arrayOf(PropTypes.string).isRequired,
   price: PropTypes.number.isRequired,
   purchaseCancelled: PropTypes.func.isRequired,
   purchaseContinued: PropTypes.func.isRequired,

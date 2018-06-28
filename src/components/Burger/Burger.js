@@ -5,39 +5,32 @@ import classes from './Burger.css';
 import BurgerIngredient from './BurgerIngredient/BurgerIngredient';
 
 const burger = (props) => {
-  // const transformedIngredients = Object.keys(props.ingredients)
-  //   .map((igKey) =>
-  //     [...Array(props.ingredients[igKey])]
-  //       .map((_, i) => {
-  //         const key = igKey + i;
-  //         return <BurgerIngredient key={key} type={igKey} />;
-  //       }));
+  let transformedOrderedIngredients = <p>Please, start adding ingredients!</p>;
 
-  let transformedIngredients = Object.entries(props.ingredients)
-    // .filter(([name]) => name !== 'totalPrice')
-    .map(([name, value]) =>
-      [...Array(value)]
-        .map((_, i) => {
-          const key = name + i;
-          return <BurgerIngredient key={key} type={name} />;
-        }))
-    .reduce((memo, curr) => memo.concat(curr), []);
-
-  if (!transformedIngredients.length) {
-    transformedIngredients = <p>Please, start adding ingredients!</p>;
+  if (props.ingredients.length) {
+    transformedOrderedIngredients =
+      props.ingredients.map((ing, i) => {
+        const key = ing + i;
+        return <BurgerIngredient key={key} type={ing} />;
+      })
+        .reverse(); // to add ingredients on the top
   }
 
   return (
     <div className={classes.Burger}>
       <BurgerIngredient type="bread-top" />
-      {transformedIngredients}
+      {transformedOrderedIngredients}
       <BurgerIngredient type="bread-bottom" />
     </div>
   );
 };
 
 burger.propTypes = {
-  ingredients: PropTypes.objectOf(PropTypes.number).isRequired,
+  ingredients: PropTypes.arrayOf(PropTypes.string),
+};
+
+burger.defaultProps = {
+  ingredients: [],
 };
 
 export default burger;

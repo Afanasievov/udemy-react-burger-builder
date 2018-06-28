@@ -1,6 +1,8 @@
 import * as actionTypes from './actionTypes';
 import axios from '../../axios-orders';
 
+import { BURGER_BUILDER } from '../../constants/api';
+
 export const addIngredient = name => ({
   type: actionTypes.ADD_INGREDIENT,
   ingredientName: name,
@@ -11,9 +13,9 @@ export const removeIngredient = name => ({
   ingredientName: name,
 });
 
-export const setIngredients = ingredients => ({
+export const setIngredients = orderDefaults => ({
   type: actionTypes.SET_INGREDIENTS,
-  ingredients,
+  orderDefaults,
 });
 
 export const fetchIngredientsFailed = () => ({
@@ -22,6 +24,6 @@ export const fetchIngredientsFailed = () => ({
 
 export const initIngredients = () => dispatch =>
   axios
-    .get('https://react-burger-builder-f06ca.firebaseio.com/ingredients.json')
+    .get(BURGER_BUILDER.ORDER_DEFAULTS)
     .then(response => dispatch(setIngredients(response.data)))
     .catch(() => dispatch(fetchIngredientsFailed()));
