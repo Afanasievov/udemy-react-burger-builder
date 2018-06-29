@@ -13,8 +13,8 @@ import {
   getFormSelect,
   getFormElementsArray,
   checkValidity,
-} from '../../../shared/forms';
-import { updateObject } from '../../../shared/utility';
+} from '../../../utils/forms';
+import { updateObject } from '../../../utils/objects';
 
 class ContactData extends Component {
   state = {

@@ -1,5 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
-import { updateObject } from '../../shared/utility';
+import { updateObject } from '../../utils/objects';
 import * as PATHS from '../../constants/paths';
 
 export const initialState = {

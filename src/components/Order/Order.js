@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import classes from './Order.css';
-import { countArrayElements } from '../../shared/utility';
+import { countArrayElements } from '../../utils/arrays';
 
 const order = (props) => {
   const ingredientOutput = props.ingredients

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import Aux from '../../../hoc/Auxiliary/Aux';
 import Button from '../../UI/Button/Button';
-import { countArrayElements } from '../../../shared/utility';
+import { countArrayElements } from '../../../utils/arrays';
 
 const orderSummary = (props) => {
   const ingredientSummary = props.orderIngredients

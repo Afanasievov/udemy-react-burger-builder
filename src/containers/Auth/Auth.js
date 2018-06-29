@@ -9,11 +9,11 @@ import {
   getFormInput,
   getFormElementsArray,
   checkValidity,
-} from '../../shared/forms';
+} from '../../utils/forms';
 import classes from './Auth.css';
 import * as actions from '../../store/actions';
 import * as PATHS from '../../constants/paths';
-import { updateObject } from '../../shared/utility';
+import { updateObject } from '../../utils/objects';
 
 class Auth extends Component {
   state = {
