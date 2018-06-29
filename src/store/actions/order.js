@@ -1,3 +1,5 @@
+import queryString from 'query-string';
+
 import * as actionTypes from './actionTypes';
 import axios from '../../axios-orders';
 import { BURGER_BUILDER } from '../../constants/api';
@@ -45,8 +47,8 @@ export const fetchOrdersStart = () => ({
 
 export const fetchOrders = (token, userId) => (dispatch) => {
   dispatch(fetchOrdersStart());
-  const queryParams = `${token}&orderBy="userId"&equalTo="${userId}"`;
-  axios.get(`${BURGER_BUILDER.ORDERS}${queryParams}`)
+  const query = queryString.stringify({ auth: token, orderBy: '"userId"', equalTo: `"${userId}"` });
+  axios.get(`${BURGER_BUILDER.ORDERS}?${query}`)
     .then((res) => {
       const fetchedOrders = Object.entries(res.data)
         .map(([key, value]) => ({ ...value, id: key }));

@@ -2,11 +2,11 @@
 
 export const AUTH = {
   BASE_URL: process.env.REACT_APP_AUTH_BASE_URL,
-  SIGN_IN: 'verifyPassword?key=',
-  SIGN_UP: 'signupNewUser?key=',
+  SIGN_IN: 'verifyPassword',
+  SIGN_UP: 'signupNewUser',
 };
 export const BURGER_BUILDER = {
   BASE_URL: 'https://react-burger-builder-f06ca.firebaseio.com/',
   ORDER_DEFAULTS: 'orderDefaults.json',
-  ORDERS: 'orders.json?auth=',
+  ORDERS: 'orders.json',
 };
