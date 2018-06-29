@@ -1,4 +1,4 @@
-import queryString from 'query-string';
+import qs from 'qs';
 
 import * as actionTypes from './actionTypes';
 import axios from '../../axios-orders';
@@ -21,7 +21,7 @@ export const purchaseBurgerStart = () => ({
 
 export const purchaseBurger = (orderData, token) => (dispatch) => {
   dispatch(purchaseBurgerStart());
-  const query = queryString.stringify({ auth: token });
+  const query = qs.stringify({ auth: token });
   axios
     .post(`${BURGER_BUILDER.ORDERS}?${query}`, orderData)
     .then(response => dispatch(purchaseBurgerSuccess(response.data.name, orderData)))
@@ -48,7 +48,7 @@ export const fetchOrdersStart = () => ({
 
 export const fetchOrders = (token, userId) => (dispatch) => {
   dispatch(fetchOrdersStart());
-  const query = queryString.stringify({ auth: token, orderBy: '"userId"', equalTo: `"${userId}"` });
+  const query = qs.stringify({ auth: token, orderBy: '"userId"', equalTo: `"${userId}"` });
   axios.get(`${BURGER_BUILDER.ORDERS}?${query}`)
     .then((res) => {
       const fetchedOrders = Object.entries(res.data)

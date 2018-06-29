@@ -1,5 +1,5 @@
 import axios from 'axios';
-import queryString from 'query-string';
+import qs from 'qs';
 
 import * as actionTypes from './actionTypes';
 import * as API from '../../constants/api';
@@ -41,7 +41,7 @@ export const auth = (email, password, isSignIn) => (dispatch) => {
     returnSecureToken: true,
   };
   const path = isSignIn ? API.AUTH.SIGN_IN : API.AUTH.SIGN_UP;
-  const query = queryString.stringify({ key: process.env.REACT_APP_FIREBASE_KEY });
+  const query = qs.stringify({ key: process.env.REACT_APP_FIREBASE_KEY });
   axios.post(`${API.AUTH.BASE_URL}${path}?${query}`, authData)
     .then((response) => {
       const expirationDate = new Date(Date.now() + response.data.expiresIn * 1000);
