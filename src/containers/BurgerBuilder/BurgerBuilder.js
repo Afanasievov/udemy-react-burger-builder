@@ -12,6 +12,7 @@ import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import * as actions from '../../store/actions';
 import axios from '../../axios-orders';
 import * as PATHS from '../../constants/paths';
+import { MAX_ING_ADD } from '../../constants/app';
 
 export class BurgerBuilder extends Component {
   state = {
@@ -53,6 +54,7 @@ export class BurgerBuilder extends Component {
       disabledInfo[key] = !this.props.orderIngredients
         .some(({ ingredientId }) => this.props.ings[key].id === ingredientId);
     });
+    disabledInfo.addIng = this.props.orderIngredients.length >= MAX_ING_ADD;
 
     let orderSummary = null;
 

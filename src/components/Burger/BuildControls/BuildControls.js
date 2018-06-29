@@ -15,7 +15,8 @@ const buildControls = props => (
         label={key}
         added={() => props.ingredientAdded(value.id)}
         removed={() => props.ingredientRemoved(value.id)}
-        disabled={props.disabled[key]}
+        disabledRemoving={props.disabled[key]}
+        disabledAdding={props.disabled.addIng}
       />
     ))}
     <button
