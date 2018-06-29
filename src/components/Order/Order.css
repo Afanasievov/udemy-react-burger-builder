@@ -6,3 +6,11 @@
   margin: 10px auto;
   box-sizing: border-box;
 }
+
+.IngredientName {
+  display: inline-block;
+  text-transform: capitalize;
+  margin: 5px 8px;
+  border: 1px solid #ccc;
+  padding: 5px;
+}

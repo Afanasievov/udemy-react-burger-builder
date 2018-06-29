@@ -3,15 +3,17 @@ import PropTypes from 'prop-types';
 
 import classes from './Burger.css';
 import BurgerIngredient from './BurgerIngredient/BurgerIngredient';
+import { findKeyById } from '../../utils/objects';
 
 const burger = (props) => {
   let transformedOrderedIngredients = <p>Please, start adding ingredients!</p>;
 
-  if (props.ingredients.length) {
+  if (props.orderIngredients.length) {
     transformedOrderedIngredients =
-      props.ingredients.map((ing, i) => {
-        const key = ing + i;
-        return <BurgerIngredient key={key} type={ing} />;
+      props.orderIngredients.map((id, i) => {
+        const type = findKeyById(props.ings, id);
+        const key = `${type}${i}`;
+        return <BurgerIngredient key={key} type={type} />;
       })
         .reverse(); // to add ingredients on the top
   }
@@ -26,11 +28,15 @@ const burger = (props) => {
 };
 
 burger.propTypes = {
-  ingredients: PropTypes.arrayOf(PropTypes.string),
+  ings: PropTypes.objectOf(PropTypes.shape({
+    id: PropTypes.number,
+    price: PropTypes.number,
+  })).isRequired,
+  orderIngredients: PropTypes.arrayOf(PropTypes.number),
 };
 
 burger.defaultProps = {
-  ingredients: [],
+  orderIngredients: [],
 };
 
 export default burger;

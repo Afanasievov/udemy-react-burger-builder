@@ -132,7 +132,7 @@ class ContactData extends Component {
 }
 
 ContactData.propTypes = {
-  ings: PropTypes.arrayOf(PropTypes.string).isRequired,
+  ings: PropTypes.arrayOf(PropTypes.number).isRequired,
   price: PropTypes.number.isRequired,
   loading: PropTypes.bool,
   onOrderBurger: PropTypes.func.isRequired,

@@ -4,15 +4,18 @@ import PropTypes from 'prop-types';
 import Aux from '../../../hoc/Auxiliary/Aux';
 import Button from '../../UI/Button/Button';
 import { countArrayElements } from '../../../utils/arrays';
+import { findKeyById } from '../../../utils/objects';
 
 const orderSummary = (props) => {
   const ingredientSummary = props.orderIngredients
-    .filter((ing, i) => props.orderIngredients.indexOf(ing) === i)
-    .map((ing) => {
-      const count = countArrayElements(props.orderIngredients, ing);
+    .filter((id, i) => props.orderIngredients.indexOf(id) === i)
+    .map((id) => {
+      const count = countArrayElements(props.orderIngredients, id);
       return (
-        <li key={ing}>
-          <span style={{ textTransform: 'capitalize' }}>{ing}</span>: {count}
+        <li key={id}>
+          <span style={{ textTransform: 'capitalize' }}>
+            {findKeyById(props.ings, id)}
+          </span>: {count}
         </li>
       );
     });
@@ -37,7 +40,11 @@ const orderSummary = (props) => {
 };
 
 orderSummary.propTypes = {
-  orderIngredients: PropTypes.arrayOf(PropTypes.string).isRequired,
+  ings: PropTypes.objectOf(PropTypes.shape({
+    id: PropTypes.number,
+    price: PropTypes.number,
+  })).isRequired,
+  orderIngredients: PropTypes.arrayOf(PropTypes.number).isRequired,
   price: PropTypes.number.isRequired,
   purchaseCancelled: PropTypes.func.isRequired,
   purchaseContinued: PropTypes.func.isRequired,

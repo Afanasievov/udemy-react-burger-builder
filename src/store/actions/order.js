@@ -21,8 +21,9 @@ export const purchaseBurgerStart = () => ({
 
 export const purchaseBurger = (orderData, token) => (dispatch) => {
   dispatch(purchaseBurgerStart());
+  const query = queryString.stringify({ auth: token });
   axios
-    .post(`${BURGER_BUILDER.ORDERS}${token}`, orderData)
+    .post(`${BURGER_BUILDER.ORDERS}?${query}`, orderData)
     .then(response => dispatch(purchaseBurgerSuccess(response.data.name, orderData)))
     .catch(error => dispatch(purchaseBurgerFail(error)));
 };

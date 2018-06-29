@@ -3,22 +3,17 @@ import PropTypes from 'prop-types';
 
 import classes from './Order.css';
 import { countArrayElements } from '../../utils/arrays';
+import { findKeyById } from '../../utils/objects';
 
 const order = (props) => {
   const ingredientOutput = props.ingredients
-    .filter((ing, i) => props.ingredients.indexOf(ing) === i)
-    .map(ing => (
+    .filter((id, i) => props.ingredients.indexOf(id) === i)
+    .map(id => (
       <span
-        key={ing}
-        style={{
-          textTransform: 'capitalize',
-          display: 'inline-block',
-          margin: '5px 8px',
-          border: '1px solid #ccc',
-          padding: '5px',
-        }}
+        key={id}
+        className={classes.IngredientName}
       >
-        {ing} ({countArrayElements(props.ingredients, ing)})
+        {findKeyById(props.ings, id)} ({countArrayElements(props.ingredients, id)})
       </span>
     ));
 
@@ -31,7 +26,11 @@ const order = (props) => {
 };
 
 order.propTypes = {
-  ingredients: PropTypes.arrayOf(PropTypes.string).isRequired,
+  ings: PropTypes.objectOf(PropTypes.shape({
+    id: PropTypes.number,
+    price: PropTypes.number,
+  })).isRequired,
+  ingredients: PropTypes.arrayOf(PropTypes.number).isRequired,
   price: PropTypes.number.isRequired,
 };
 

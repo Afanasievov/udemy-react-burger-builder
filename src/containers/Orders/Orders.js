@@ -17,7 +17,7 @@ class Orders extends Component {
     let orders = <Spinner />;
     if (!this.props.loading) {
       orders = this.props.orders.map(order => (
-        <Order key={order.id} {...order} />
+        <Order key={order.id} ings={this.props.ings} {...order} />
       ));
     }
     return (
@@ -29,8 +29,12 @@ class Orders extends Component {
 }
 
 Orders.propTypes = {
+  ings: PropTypes.objectOf(PropTypes.shape({
+    id: PropTypes.number,
+    price: PropTypes.number,
+  })).isRequired,
   orders: PropTypes.arrayOf(PropTypes.shape({
-    ingredients: PropTypes.arrayOf(PropTypes.string),
+    ingredients: PropTypes.arrayOf(PropTypes.number),
     orderData: PropTypes.objectOf(PropTypes.any).isRequired,
     price: PropTypes.number.isRequired,
   })).isRequired,
@@ -41,6 +45,7 @@ Orders.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  ings: state.burgerBuilder.ingredients,
   orders: state.order.orders,
   loading: state.order.loading,
   token: state.auth.token,

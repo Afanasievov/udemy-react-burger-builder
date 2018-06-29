@@ -9,12 +9,12 @@ const buildControls = props => (
     <p>
       Current Price: <strong>{props.price.toFixed(2)}</strong>
     </p>
-    {Object.keys(props.ingredients).map(key => (
+    {Object.entries(props.ingredients).map(([key, value]) => (
       <BuildControl
         key={key}
         label={key}
-        added={() => props.ingredientAdded(key)}
-        removed={() => props.ingredientRemoved(key)}
+        added={() => props.ingredientAdded(value.id)}
+        removed={() => props.ingredientRemoved(value.id)}
         disabled={props.disabled[key]}
       />
     ))}
@@ -29,7 +29,10 @@ const buildControls = props => (
 );
 
 buildControls.propTypes = {
-  ingredients: PropTypes.objectOf(PropTypes.number).isRequired,
+  ingredients: PropTypes.objectOf(PropTypes.shape({
+    id: PropTypes.number,
+    price: PropTypes.number,
+  })).isRequired,
   price: PropTypes.number.isRequired,
   disabled: PropTypes.objectOf(PropTypes.bool).isRequired,
   purchasable: PropTypes.bool.isRequired,

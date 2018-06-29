@@ -17,13 +17,14 @@ class Checkout extends Component {
   };
   render() {
     let summary = <Redirect to={PATHS.DEFAULT} />;
-    if (this.props.ings.length) {
+    if (this.props.orderIngredients.length) {
       const purchasedRedirect = this.props.purchased ? <Redirect to={PATHS.DEFAULT} /> : null;
       summary = (
         <div>
           {purchasedRedirect}
           <CheckoutSummary
-            ingredients={this.props.ings}
+            ings={this.props.ings}
+            orderIngredients={this.props.orderIngredients}
             checkoutCancelled={this.checkoutCancelledHandler}
             checkoutContinued={this.checkoutContinuedHandler}
           />
@@ -41,12 +42,17 @@ class Checkout extends Component {
 Checkout.propTypes = {
   history: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   match: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types,
-  ings: PropTypes.arrayOf(PropTypes.string).isRequired,
+  ings: PropTypes.objectOf(PropTypes.shape({
+    id: PropTypes.number,
+    price: PropTypes.number,
+  })).isRequired,
+  orderIngredients: PropTypes.arrayOf(PropTypes.number).isRequired,
   purchased: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
-  ings: state.burgerBuilder.orderIngredients,
+  ings: state.burgerBuilder.ingredients,
+  orderIngredients: state.burgerBuilder.orderIngredients,
   purchased: state.order.purchased,
 });
 

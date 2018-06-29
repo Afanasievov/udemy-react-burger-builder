@@ -9,7 +9,7 @@ const checkoutSummary = props => (
   <div className={classes.CheckoutSummary}>
     <h1>We hope it tastes well!</h1>
     <div style={{ width: '100%', height: '400px', margin: 'auto' }}>
-      <Burger ingredients={props.ingredients} />
+      <Burger orderIngredients={props.orderIngredients} ings={props.ings} />
     </div>
     <Button btnType="Danger" clicked={props.checkoutCancelled}>
       CANCEL
@@ -21,7 +21,11 @@ const checkoutSummary = props => (
 );
 
 checkoutSummary.propTypes = {
-  ingredients: PropTypes.arrayOf(PropTypes.string).isRequired,
+  ings: PropTypes.objectOf(PropTypes.shape({
+    id: PropTypes.number,
+    price: PropTypes.number,
+  })).isRequired,
+  orderIngredients: PropTypes.arrayOf(PropTypes.number).isRequired,
   checkoutCancelled: PropTypes.func.isRequired,
   checkoutContinued: PropTypes.func.isRequired,
 };

@@ -23,8 +23,7 @@ export class BurgerBuilder extends Component {
   }
 
   updatePurchaseState() {
-    const sum = Object.values(this.props.ings).reduce((memo, curr) => memo + curr, 0);
-    return sum > 0;
+    return this.props.orderIngredients.length > 0;
   }
   purchaseHandler = () => {
     if (this.props.isAuthenticated) {
@@ -51,7 +50,7 @@ export class BurgerBuilder extends Component {
     };
 
     Object.keys(disabledInfo).forEach((key) => {
-      disabledInfo[key] = !this.props.orderIngredients.includes(key);
+      disabledInfo[key] = !this.props.orderIngredients.includes(this.props.ings[key].id);
     });
 
     let orderSummary = null;
@@ -61,7 +60,7 @@ export class BurgerBuilder extends Component {
     if (this.props.ings) {
       burger = (
         <Aux>
-          <Burger ingredients={this.props.orderIngredients} />
+          <Burger ings={this.props.ings} orderIngredients={this.props.orderIngredients} />
           <BuildControls
             ingredients={this.props.ings}
             ingredientAdded={this.props.onIngredientAdded}
@@ -76,7 +75,7 @@ export class BurgerBuilder extends Component {
       );
       orderSummary = (
         <OrderSummary
-          ingredients={this.props.ings}
+          ings={this.props.ings}
           orderIngredients={this.props.orderIngredients}
           price={this.props.price}
           purchaseCancelled={this.purchaseCancelHandler}
@@ -102,10 +101,13 @@ export class BurgerBuilder extends Component {
 
 BurgerBuilder.propTypes = {
   history: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  ings: PropTypes.objectOf(PropTypes.number),
-  orderIngredients: PropTypes.arrayOf(PropTypes.string),
+  ings: PropTypes.objectOf(PropTypes.shape({
+    id: PropTypes.number,
+    price: PropTypes.number,
+  })),
+  orderIngredients: PropTypes.arrayOf(PropTypes.number).isRequired,
   price: PropTypes.number,
-  error: PropTypes.bool,
+  error: PropTypes.bool.isRequired,
   onIngredientAdded: PropTypes.func.isRequired,
   onIngredientRemoved: PropTypes.func.isRequired,
   onInitIngredients: PropTypes.func.isRequired,
@@ -115,10 +117,8 @@ BurgerBuilder.propTypes = {
 };
 
 BurgerBuilder.defaultProps = {
-  ings: {},
-  orderIngredients: [],
+  ings: null,
   price: 0,
-  error: false,
   isAuthenticated: false,
 };
 

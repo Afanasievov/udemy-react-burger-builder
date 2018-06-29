@@ -3,14 +3,14 @@ import axios from '../../axios-orders';
 
 import { BURGER_BUILDER } from '../../constants/api';
 
-export const addIngredient = name => ({
+export const addIngredient = id => ({
   type: actionTypes.ADD_INGREDIENT,
-  ingredientName: name,
+  ingredientId: id,
 });
 
-export const removeIngredient = name => ({
+export const removeIngredient = id => ({
   type: actionTypes.REMOVE_INGREDIENT,
-  ingredientName: name,
+  ingredientId: id,
 });
 
 export const setIngredients = orderDefaults => ({

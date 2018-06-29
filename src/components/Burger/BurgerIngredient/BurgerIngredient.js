@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import S from 'string';
 
 import classes from './BurgerIngredient.css';
+import { capitalize } from '../../../utils/strings';
 
 const burgerIngredient = (props) => {
   switch (props.type) {
@@ -16,7 +16,7 @@ const burgerIngredient = (props) => {
         </div>
       );
     default: // corresponding css-class should exist!
-      return <div className={classes[S(props.type).capitalize().s]} />;
+      return <div className={classes[capitalize(props.type)]} />;
   }
 };
 

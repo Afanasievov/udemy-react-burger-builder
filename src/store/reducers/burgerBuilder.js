@@ -1,5 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
-import { updateObject } from '../../utils/objects';
+import { updateObject, findKeyById } from '../../utils/objects';
 
 const initialState = {
   ingredients: null,
@@ -10,10 +10,11 @@ const initialState = {
 };
 
 const addIngredient = (state, action) => {
-  const orderIngredients = state.orderIngredients.concat(action.ingredientName);
+  const orderIngredients = state.orderIngredients.concat(action.ingredientId);
+  const { price } = state.ingredients[findKeyById(state.ingredients, action.ingredientId)];
   const updatedState = {
     orderIngredients,
-    totalPrice: +(state.totalPrice + state.ingredients[action.ingredientName]).toFixed(2),
+    totalPrice: +(state.totalPrice + price).toFixed(2),
     building: true,
   };
 
@@ -22,10 +23,11 @@ const addIngredient = (state, action) => {
 
 const removeIngredient = (state, action) => {
   const orderIngredients = [...state.orderIngredients];
-  orderIngredients.splice(state.orderIngredients.lastIndexOf(action.ingredientName), 1);
+  orderIngredients.splice(state.orderIngredients.lastIndexOf(action.ingredientId), 1);
+  const { price } = state.ingredients[findKeyById(state.ingredients, action.ingredientId)];
   const updatedState = {
     orderIngredients,
-    totalPrice: +(state.totalPrice - state.ingredients[action.ingredientName]).toFixed(2),
+    totalPrice: +(state.totalPrice - price).toFixed(2),
     building: true,
   };
 
