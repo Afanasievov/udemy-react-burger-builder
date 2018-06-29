@@ -8,6 +8,7 @@ import { findKeyById } from '../../../utils/objects';
 
 const orderSummary = (props) => {
   const ingredientSummary = props.orderIngredients
+    .map(({ ingredientId }) => ingredientId)
     .filter((id, i) => props.orderIngredients.indexOf(id) === i)
     .map((id) => {
       const count = countArrayElements(props.orderIngredients, id);
@@ -44,7 +45,10 @@ orderSummary.propTypes = {
     id: PropTypes.number,
     price: PropTypes.number,
   })).isRequired,
-  orderIngredients: PropTypes.arrayOf(PropTypes.number).isRequired,
+  orderIngredients: PropTypes.arrayOf(PropTypes.shape({
+    key: PropTypes.string,
+    ingredientId: PropTypes.number,
+  })).isRequired,
   price: PropTypes.number.isRequired,
   purchaseCancelled: PropTypes.func.isRequired,
   purchaseContinued: PropTypes.func.isRequired,

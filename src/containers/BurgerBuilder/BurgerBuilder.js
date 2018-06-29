@@ -50,7 +50,8 @@ export class BurgerBuilder extends Component {
     };
 
     Object.keys(disabledInfo).forEach((key) => {
-      disabledInfo[key] = !this.props.orderIngredients.includes(this.props.ings[key].id);
+      disabledInfo[key] = !this.props.orderIngredients
+        .some(({ ingredientId }) => this.props.ings[key].id === ingredientId);
     });
 
     let orderSummary = null;
@@ -105,7 +106,10 @@ BurgerBuilder.propTypes = {
     id: PropTypes.number,
     price: PropTypes.number,
   })),
-  orderIngredients: PropTypes.arrayOf(PropTypes.number).isRequired,
+  orderIngredients: PropTypes.arrayOf(PropTypes.shape({
+    key: PropTypes.string,
+    ingredientId: PropTypes.number,
+  })).isRequired,
   price: PropTypes.number,
   error: PropTypes.bool.isRequired,
   onIngredientAdded: PropTypes.func.isRequired,

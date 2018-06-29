@@ -1,3 +1,5 @@
+import uuid from 'uuid/v4';
+
 import * as actionTypes from '../actions/actionTypes';
 import { updateObject, findKeyById } from '../../utils/objects';
 
@@ -10,7 +12,11 @@ const initialState = {
 };
 
 const addIngredient = (state, action) => {
-  const orderIngredients = state.orderIngredients.concat(action.ingredientId);
+  const orderIngredients = state.orderIngredients
+    .concat([{
+      key: uuid(),
+      ingredientId: action.ingredientId,
+    }]);
   const { price } = state.ingredients[findKeyById(state.ingredients, action.ingredientId)];
   const updatedState = {
     orderIngredients,

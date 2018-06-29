@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import TransitionGroup from 'react-transition-group/TransitionGroup';
+import CSSTransition from 'react-transition-group/CSSTransition';
 
 import classes from './Burger.css';
 import BurgerIngredient from './BurgerIngredient/BurgerIngredient';
@@ -9,13 +11,30 @@ const burger = (props) => {
   let transformedOrderedIngredients = <p>Please, start adding ingredients!</p>;
 
   if (props.orderIngredients.length) {
-    transformedOrderedIngredients =
-      props.orderIngredients.map((id, i) => {
-        const type = findKeyById(props.ings, id);
-        const key = `${type}${i}`;
-        return <BurgerIngredient key={key} type={type} />;
-      })
-        .reverse(); // to add ingredients on the top
+    transformedOrderedIngredients = (
+      <TransitionGroup>
+        {
+          props.orderIngredients.map(({ key, ingredientId }) => {
+            const type = findKeyById(props.ings, ingredientId);
+            return (
+              <CSSTransition
+                key={key}
+                classNames={{
+                  enter: classes.FadeEnter,
+                  enterActive: classes.FadeEnterActive,
+                  exit: classes.FadeExit,
+                  exitActive: classes.FadeExitActive,
+                }}
+                timeout={500}
+              >
+                <BurgerIngredient type={type} />
+              </CSSTransition>
+            );
+          })
+            .reverse() // to add ingredients on the top
+        }
+      </TransitionGroup>
+    );
   }
 
   return (
@@ -32,7 +51,10 @@ burger.propTypes = {
     id: PropTypes.number,
     price: PropTypes.number,
   })).isRequired,
-  orderIngredients: PropTypes.arrayOf(PropTypes.number),
+  orderIngredients: PropTypes.arrayOf(PropTypes.shape({
+    key: PropTypes.string,
+    ingredientId: PropTypes.number,
+  })),
 };
 
 burger.defaultProps = {

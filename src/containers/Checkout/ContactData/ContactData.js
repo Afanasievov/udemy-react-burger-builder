@@ -77,7 +77,7 @@ class ContactData extends Component {
       formData[key] = val.value;
     });
     const order = {
-      ingredients: this.props.ings,
+      ingredients: this.props.orderIngredients.map(({ ingredientId }) => ingredientId),
       price: this.props.price,
       orderData: formData,
       userId: this.props.userId,
@@ -132,7 +132,10 @@ class ContactData extends Component {
 }
 
 ContactData.propTypes = {
-  ings: PropTypes.arrayOf(PropTypes.number).isRequired,
+  orderIngredients: PropTypes.arrayOf(PropTypes.shape({
+    key: PropTypes.string,
+    ingredientId: PropTypes.number,
+  })).isRequired,
   price: PropTypes.number.isRequired,
   loading: PropTypes.bool,
   onOrderBurger: PropTypes.func.isRequired,
@@ -145,7 +148,7 @@ ContactData.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-  ings: state.burgerBuilder.orderIngredients,
+  orderIngredients: state.burgerBuilder.orderIngredients,
   price: state.burgerBuilder.totalPrice,
   loading: state.order.loading,
   token: state.auth.token,

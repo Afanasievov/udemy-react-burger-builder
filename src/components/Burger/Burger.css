@@ -2,9 +2,23 @@
   width: 100%;
   margin: auto;
   max-width: 600px;
-  max-height: 400px;
-  overflow-y: auto;
+  min-height: 400px;
   text-align: center;
   font-weight: bold;
   font-size: 1.2rem;
+}
+
+.FadeEnter {
+  opacity: 0.01;
+}
+.FadeEnterActive {
+  opacity: 1;
+  transition: opacity 500ms linear;
+}
+.FadeExit {
+  opacity: 1;
+}
+.FadeExitActive {
+  opacity: 0.01;
+  transition: opacity 500ms linear;
 }

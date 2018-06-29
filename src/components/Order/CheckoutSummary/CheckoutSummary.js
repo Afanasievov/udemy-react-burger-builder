@@ -25,7 +25,10 @@ checkoutSummary.propTypes = {
     id: PropTypes.number,
     price: PropTypes.number,
   })).isRequired,
-  orderIngredients: PropTypes.arrayOf(PropTypes.number).isRequired,
+  orderIngredients: PropTypes.arrayOf(PropTypes.shape({
+    key: PropTypes.string,
+    ingredientId: PropTypes.number,
+  })).isRequired,
   checkoutCancelled: PropTypes.func.isRequired,
   checkoutContinued: PropTypes.func.isRequired,
 };
