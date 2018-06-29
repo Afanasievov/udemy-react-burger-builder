@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import CSSTransition from 'react-transition-group/CSSTransition';
 
 import classes from './Modal.css';
 import Aux from '../../../hoc/Auxiliary/Aux';
 import Backdrop from '../Backdrop/Backdrop';
+
+const animationTiming = {
+  enter: 700,
+  exit: 700,
+};
 
 class Modal extends Component {
   shouldComponentUpdate(nextProps) {
@@ -14,15 +20,20 @@ class Modal extends Component {
     return (
       <Aux>
         <Backdrop show={this.props.show} clicked={this.props.modalClosed} />
-        <div
-          className={classes.Modal}
-          style={{
-            transform: this.props.show ? 'translateY(0)' : 'translateY(-100vh)',
-            opacity: this.props.show ? '1' : '0',
+        <CSSTransition
+          mountOnEnter
+          unmountOnExit
+          in={this.props.show}
+          timeout={animationTiming}
+          classNames={{
+              enterActive: classes.ModalOpen,
+              exitActive: classes.ModalClosed,
           }}
         >
-          {this.props.children}
-        </div>
+          <div className={classes.Modal}>
+            {this.props.children}
+          </div>
+        </CSSTransition>
       </Aux>
     );
   }
