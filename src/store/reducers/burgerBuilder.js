@@ -29,7 +29,10 @@ const addIngredient = (state, action) => {
 
 const removeIngredient = (state, action) => {
   const orderIngredients = [...state.orderIngredients];
-  orderIngredients.splice(state.orderIngredients.lastIndexOf(action.ingredientId), 1);
+  const lastIndex = [...state.orderIngredients]
+    .map(({ ingredientId }) => ingredientId)
+    .lastIndexOf(action.ingredientId);
+  orderIngredients.splice(lastIndex, 1);
   const { price } = state.ingredients[findKeyById(state.ingredients, action.ingredientId)];
   const updatedState = {
     orderIngredients,
