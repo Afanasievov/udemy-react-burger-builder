@@ -36,6 +36,14 @@ class Auth extends Component {
           minLength: 6,
         },
       }),
+      confirmPassword: getFormInput({
+        type: 'password',
+        placeholder: 'Confirm Password',
+        value: '',
+        validation: {
+          equalTo: 'password',
+        },
+      }),
     },
     isSignIn: true,
   }
@@ -47,15 +55,52 @@ class Auth extends Component {
   }
 
   inputChangedHandler = (event, controlName) => {
-    const updatedControls = updateObject(this.state.controls, {
-      [controlName]: updateObject(this.state.controls[controlName], {
-        value: event.target.value,
-        valid: checkValidity(event.target.value, this.state.controls[controlName].validation),
-        touched: true,
-      }),
-    });
+    const { value } = event.target;
+    let connectedValue;
+    if (this.state.controls[controlName].validation.equalTo) {
+      connectedValue = {
+        value: this.state.controls[this.state.controls[controlName].validation.equalTo].value,
+        isValid: this.state.controls[this.state.controls[controlName].validation.equalTo].isValid,
+      };
+    }
+    if (controlName === 'password') {
+      connectedValue = {
+        value,
+        isValid: checkValidity({
+          value,
+          rules: this.state.controls[controlName].validation,
+        }),
+      };
+    }
 
-    this.setState({ controls: updatedControls });
+    this.setState((prevState) => {
+      let updatedControls = updateObject(this.state.controls, {
+        [controlName]: updateObject(this.state.controls[controlName], {
+          value,
+          isValid: checkValidity({
+            value,
+            rules: this.state.controls[controlName].validation,
+            connectedValue,
+          }),
+          touched: true,
+        }),
+      });
+
+      if (controlName === 'password' && this.state.controls.confirmPassword.touched) {
+        updatedControls = updateObject(updatedControls, {
+          confirmPassword: {
+            ...prevState.controls.confirmPassword,
+            isValid: checkValidity({
+              value: prevState.controls.confirmPassword.value,
+              rules: prevState.controls.confirmPassword.validation,
+              connectedValue,
+            }),
+          },
+        });
+      }
+
+      return { controls: updatedControls };
+    });
   }
 
   submitHandler = (event) => {
@@ -74,13 +119,21 @@ class Auth extends Component {
   }
 
   render() {
-    const formInputs = getFormElementsArray(this.state.controls, this.inputChangedHandler);
+    const controls = {
+      email: this.state.controls.email,
+      password: this.state.controls.password,
+    };
+    if (!this.state.isSignIn) {
+      controls.confirmPassword = this.state.controls.confirmPassword;
+    }
+    const formInputs = getFormElementsArray(controls, this.inputChangedHandler);
+    const isSubmitDisabled = Object.values(controls).some(({ isValid }) => isValid !== true);
     let form = (
       <form onSubmit={this.submitHandler}>
         {formInputs}
         <Button
           btnType="Success"
-          clicked={() => false}
+          disabled={isSubmitDisabled}
         >
           SUBMIT
         </Button>

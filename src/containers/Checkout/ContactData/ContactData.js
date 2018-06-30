@@ -87,11 +87,15 @@ class ContactData extends Component {
   }
 
   inputChangedHandler = (event, inputIdentifier) => {
+    const { value } = event.target;
     const updatedFormElement = updateObject(
       this.state.orderForm[inputIdentifier],
       {
-        value: event.target.value,
-        valid: checkValidity(event.target.value, this.state.orderForm[inputIdentifier].validation),
+        value,
+        isValid: checkValidity({
+          value,
+          rules: this.state.orderForm[inputIdentifier].validation,
+        }),
         touched: true,
       },
     );
@@ -99,7 +103,7 @@ class ContactData extends Component {
       [inputIdentifier]: updatedFormElement,
     });
     const formIsValid = !Object.values(updatedOrderForm)
-      .some(({ valid }) => valid !== true);
+      .some(({ isValid }) => isValid !== true);
     this.setState({ orderForm: updatedOrderForm, formIsValid });
   }
 

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Input from '../components/UI/Input/Input';
+import { EMAIL_REGEX } from '../constants/app';
 
 export const getFormInput = ({
   type,
@@ -16,7 +17,7 @@ export const getFormInput = ({
   },
   value,
   validation,
-  valid: false,
+  isValid: false,
   touched: false,
 });
 
@@ -31,7 +32,7 @@ export const getFormSelect = (options, label) => ({
   },
   value: options[0][0],
   validation: {},
-  valid: true,
+  isValid: true,
 });
 
 export const getFormElementsArray = (form, changeHandler) => Object.entries(form)
@@ -43,32 +44,37 @@ export const getFormElementsArray = (form, changeHandler) => Object.entries(form
       elementType={value.elementType}
       elementConfig={value.elementConfig}
       value={value.value}
-      invalid={!value.valid}
+      invalid={!value.isValid}
       shouldValidate={value.validation}
       touched={value.touched}
       changed={changeHandler}
     />
   ));
 
-export const checkValidity = (value, rules) => {
+export const checkValidity = ({ value, rules, connectedValue }) => {
   let isValid = true;
 
-  if (rules.required) {
-    isValid = value.trim() !== '' && isValid;
-  }
-
-  if (rules.minLength) {
-    isValid = value.length >= rules.minLength && isValid;
-  }
-
-  if (rules.maxLength) {
-    isValid = value.length <= rules.maxLength && isValid;
-  }
-
-  if (rules.email) {
-    const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    isValid = regex.test(value) && isValid;
-  }
+  Object.keys(rules).forEach((rule) => {
+    switch (rule) {
+      case 'email':
+        isValid = isValid && EMAIL_REGEX.test(value);
+        break;
+      case 'minLength':
+        isValid = isValid && value.length >= rules.minLength;
+        break;
+      case 'maxLength':
+        isValid = isValid && value.length <= rules.maxLength;
+        break;
+      case 'equalTo':
+        isValid = isValid && value === connectedValue.value && connectedValue.isValid;
+        break;
+      case 'notEmpty':
+        isValid = isValid && value.trim() !== '';
+        break;
+      default:
+        isValid = true;
+    }
+  });
 
   return isValid;
 };

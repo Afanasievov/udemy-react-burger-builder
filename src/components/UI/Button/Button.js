@@ -15,13 +15,14 @@ const button = props => (
 
 button.propTypes = {
   btnType: PropTypes.string.isRequired,
-  clicked: PropTypes.func.isRequired,
+  clicked: PropTypes.func,
   disabled: PropTypes.bool,
   children: PropTypes.string.isRequired,
 };
 
 button.defaultProps = {
   disabled: false,
+  clicked: null,
 };
 
 export default button;
