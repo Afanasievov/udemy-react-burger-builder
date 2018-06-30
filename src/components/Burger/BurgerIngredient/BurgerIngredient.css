@@ -110,6 +110,7 @@
   height: 15px;
   background: linear-gradient(#bf3813, #c45e38);
   margin: 2% auto;
+  border-radius: 10px;
 }
 
 @media (min-width: 300px) {

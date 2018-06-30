@@ -3,15 +3,20 @@ import PropTypes from 'prop-types';
 
 import Aux from '../../../hoc/Auxiliary/Aux';
 import Button from '../../UI/Button/Button';
-import { countArrayElements } from '../../../utils/arrays';
 import { findKeyById } from '../../../utils/objects';
 
 const orderSummary = (props) => {
   const ingredientSummary = props.orderIngredients
     .map(({ ingredientId }) => ingredientId)
-    .filter((id, i) => props.orderIngredients.indexOf(id) === i)
+    .filter((id, i, arr) => arr.indexOf(id) === i)
     .map((id) => {
-      const count = countArrayElements(props.orderIngredients, id);
+      const count = props.orderIngredients
+        .reduce((memo, curr) => {
+          if (curr.ingredientId === id) {
+            return memo + 1;
+          }
+          return memo;
+        }, 0);
       return (
         <li key={id}>
           <span style={{ textTransform: 'capitalize' }}>

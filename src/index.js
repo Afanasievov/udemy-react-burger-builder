@@ -11,6 +11,7 @@ import registerServiceWorker from './registerServiceWorker';
 import burgerBuilderReducer from './store/reducers/burgerBuilder';
 import orderReducer from './store/reducers/order';
 import authReducer from './store/reducers/auth';
+import uiReducer from './store/reducers/ui';
 
 const composeEnhancers = process.env.NODE_ENV === 'development'
 // eslint-disable-next-line no-underscore-dangle
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   burgerBuilder: burgerBuilderReducer,
   order: orderReducer,
   auth: authReducer,
+  ui: uiReducer,
 });
 
 const store = createStore(

@@ -6,6 +6,7 @@ import Aux from '../../hoc/Auxiliary/Aux';
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
+import Toast from '../../components/UI/Toast/Toast';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
@@ -15,20 +16,19 @@ import * as PATHS from '../../constants/paths';
 import { MAX_ING_ADD } from '../../constants/app';
 
 export class BurgerBuilder extends Component {
-  state = {
-    purchasing: false,
-  };
-
   componentDidMount() {
     this.props.onInitIngredients();
   }
+
+  ingredientAddedHandler = id =>
+    this.props.onIngredientAdded(id, this.props.orderIngredients.length);
 
   updatePurchaseState() {
     return this.props.orderIngredients.length > 0;
   }
   purchaseHandler = () => {
     if (this.props.isAuthenticated) {
-      this.setState({ purchasing: true });
+      this.props.onModalOpen();
     } else {
       this.props.onSetAuthRedirectPath(PATHS.CHECKOUT);
       this.props.history.push(PATHS.AUTH);
@@ -37,10 +37,11 @@ export class BurgerBuilder extends Component {
 
   purchaseCancelHandler = () => {
     this.props.onInitPurchase();
-    this.setState({ purchasing: false });
+    this.props.onModalClose();
   };
 
   purchaseContinueHandler = () => {
+    this.props.onModalClose();
     this.props.onInitPurchase();
     this.props.history.push(PATHS.CHECKOUT);
   };
@@ -66,7 +67,7 @@ export class BurgerBuilder extends Component {
           <Burger ings={this.props.ings} orderIngredients={this.props.orderIngredients} />
           <BuildControls
             ingredients={this.props.ings}
-            ingredientAdded={this.props.onIngredientAdded}
+            ingredientAdded={this.ingredientAddedHandler}
             ingredientRemoved={this.props.onIngredientRemoved}
             disabled={disabledInfo}
             price={this.props.price}
@@ -87,15 +88,26 @@ export class BurgerBuilder extends Component {
       );
     }
 
-    if (this.state.loading) {
-      orderSummary = <Spinner />;
-    }
+    const modal = this.props.isShowModal
+      ? (
+        <Modal show={this.props.isShowModal} modalClosed={this.purchaseCancelHandler}>
+          {orderSummary}
+        </Modal>
+      )
+      : null;
+
+    const toast = this.props.isShowToast
+      ? (
+        <Toast show={this.props.isShowToast} toastClosed={this.props.onToastClose}>
+          <span>You&apos;ve reached maximum number of ingredients!!!</span>
+        </Toast>
+      )
+      : null;
 
     return (
       <Aux>
-        <Modal show={this.state.purchasing} modalClosed={this.purchaseCancelHandler}>
-          {orderSummary}
-        </Modal>
+        {modal}
+        {toast}
         {burger}
       </Aux>
     );
@@ -118,8 +130,13 @@ BurgerBuilder.propTypes = {
   onIngredientRemoved: PropTypes.func.isRequired,
   onInitIngredients: PropTypes.func.isRequired,
   onInitPurchase: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool,
+  onModalOpen: PropTypes.func.isRequired,
+  onModalClose: PropTypes.func.isRequired,
+  onToastClose: PropTypes.func.isRequired,
   onSetAuthRedirectPath: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
+  isShowModal: PropTypes.bool.isRequired,
+  isShowToast: PropTypes.bool.isRequired,
 };
 
 BurgerBuilder.defaultProps = {
@@ -134,17 +151,23 @@ const mapStateToProps = state => ({
   price: state.burgerBuilder.totalPrice,
   error: state.burgerBuilder.error,
   isAuthenticated: state.auth.token !== null,
+  isShowModal: state.ui.isShowModal,
+  isShowToast: state.ui.isShowToast,
 });
 
 const mapDispatchToProps = dispatch => ({
   onIngredientAdded:
-    ingName => dispatch(actions.addIngredient(ingName)),
+    (ingId, currIngsAmount) => dispatch(actions.addIngredient(ingId, currIngsAmount)),
   onIngredientRemoved:
-    ingName => dispatch(actions.removeIngredient(ingName)),
+    ingId => dispatch(actions.removeIngredient(ingId)),
   onInitIngredients:
     () => dispatch(actions.initIngredients()),
   onInitPurchase: () => dispatch(actions.purchaseInit()),
   onSetAuthRedirectPath: path => dispatch(actions.setAuthRedirectPath(path)),
+  onModalOpen: () => dispatch(actions.modalOpen()),
+  onModalClose: () => dispatch(actions.modalClose()),
+  onToastOpen: () => dispatch(actions.toastOpen()),
+  onToastClose: () => dispatch(actions.toastClose()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(BurgerBuilder, axios));
