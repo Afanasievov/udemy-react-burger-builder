@@ -1,5 +1,4 @@
 import * as actionTypes from './actionTypes';
-import * as LS from '../../constants/localStorage';
 
 export const authStart = () => ({
   type: actionTypes.AUTH_START,
@@ -37,18 +36,6 @@ export const setAuthRedirectPath = path => ({
   path,
 });
 
-export const authCheckState = () => (dispatch) => {
-  const token = localStorage.getItem(LS.BB_TOKEN);
-  if (!token) {
-    dispatch(logout());
-  } else {
-    const expirationDate = new Date(localStorage.getItem(LS.BB_EXPIRATION_DATE));
-    if (expirationDate <= new Date()) {
-      dispatch(logout());
-    } else {
-      const userId = localStorage.getItem(LS.BB_USER_ID);
-      dispatch(authSuccess(token, userId));
-      dispatch(checkAuthTimeout((expirationDate.getTime() - Date.now()) / 1000));
-    }
-  }
-};
+export const authCheckState = () => ({
+  type: actionTypes.AUTH_CHECK_STATE,
+});
