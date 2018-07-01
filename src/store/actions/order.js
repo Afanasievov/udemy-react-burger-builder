@@ -1,8 +1,4 @@
-import qs from 'qs';
-
 import * as actionTypes from './actionTypes';
-import axios from '../../axios-orders';
-import { BURGER_BUILDER } from '../../constants/api';
 
 export const purchaseBurgerSuccess = (id, orderData) => ({
   type: actionTypes.PURCHASE_BURGER_SUCCESS,
@@ -19,14 +15,11 @@ export const purchaseBurgerStart = () => ({
   type: actionTypes.PURCHASE_BURGER_START,
 });
 
-export const purchaseBurger = (orderData, token) => (dispatch) => {
-  dispatch(purchaseBurgerStart());
-  const query = qs.stringify({ auth: token });
-  axios
-    .post(`${BURGER_BUILDER.ORDERS}?${query}`, orderData)
-    .then(response => dispatch(purchaseBurgerSuccess(response.data.name, orderData)))
-    .catch(error => dispatch(purchaseBurgerFail(error)));
-};
+export const purchaseBurger = (orderData, token) => ({
+  type: actionTypes.PURCHASE_BURGER,
+  orderData,
+  token,
+});
 
 export const purchaseInit = () => ({
   type: actionTypes.PURCHASE_INIT,
@@ -37,7 +30,7 @@ export const fetchOrdersSuccess = orders => ({
   orders,
 });
 
-export const fetchOrderFail = error => ({
+export const fetchOrdersFail = error => ({
   type: actionTypes.FETCH_ORDERS_FAIL,
   error,
 });
@@ -46,17 +39,8 @@ export const fetchOrdersStart = () => ({
   type: actionTypes.FETCH_ORDERS_START,
 });
 
-export const fetchOrders = (token, userId) => (dispatch) => {
-  dispatch(fetchOrdersStart());
-  const query = qs.stringify({ auth: token, orderBy: '"userId"', equalTo: `"${userId}"` });
-  axios.get(`${BURGER_BUILDER.ORDERS}?${query}`)
-    .then((res) => {
-      const fetchedOrders = Object.entries(res.data)
-        .map(([key, value]) => ({ ...value, id: key }));
-
-      dispatch(fetchOrdersSuccess(fetchedOrders));
-    })
-    .catch((err) => {
-      dispatch(fetchOrderFail(err));
-    });
-};
+export const fetchOrders = (token, userId) => ({
+  type: actionTypes.FETCH_ORDERS,
+  token,
+  userId,
+});
