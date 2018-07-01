@@ -157,7 +157,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   onIngredientAdded:
-    (ingId, currIngsAmount) => dispatch(actions.addIngredient(ingId, currIngsAmount)),
+    (ingId, currIngsAmount) => dispatch(actions.initAddIngredient(ingId, currIngsAmount)),
   onIngredientRemoved:
     ingId => dispatch(actions.removeIngredient(ingId)),
   onInitIngredients:
