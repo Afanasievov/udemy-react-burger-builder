@@ -26,6 +26,7 @@ class Auth extends Component {
           required: true,
           email: true,
         },
+        errMsg: 'Required field. Should be a valid email',
       }),
       password: getFormInput({
         type: 'password',
@@ -35,6 +36,7 @@ class Auth extends Component {
           required: true,
           minLength: 6,
         },
+        errMsg: 'Required field. Should contain at least 6 symbols',
       }),
       confirmPassword: getFormInput({
         type: 'password',
@@ -43,6 +45,7 @@ class Auth extends Component {
         validation: {
           equalTo: 'password',
         },
+        errMsg: 'Passwords don\'t match or Password is invalid',
       }),
     },
     isSignIn: true,

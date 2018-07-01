@@ -26,6 +26,7 @@ class ContactData extends Component {
         validation: {
           required: true,
         },
+        errMsg: 'Required field',
       }),
       street: getFormInput({
         type: 'text',
@@ -34,6 +35,7 @@ class ContactData extends Component {
         validation: {
           required: true,
         },
+        errMsg: 'Required field',
       }),
       zipCode: getFormInput({
         type: 'text',
@@ -44,6 +46,7 @@ class ContactData extends Component {
           minLength: 5,
           maxLength: 5,
         },
+        errMsg: 'Required field. Should contain 5 symbols',
       }),
       country: getFormInput({
         type: 'text',
@@ -52,6 +55,7 @@ class ContactData extends Component {
         validation: {
           required: true,
         },
+        errMsg: 'Required field',
       }),
       email: getFormInput({
         type: 'email',
@@ -61,6 +65,7 @@ class ContactData extends Component {
           required: true,
           email: true,
         },
+        errMsg: 'Required field. Should be a valid email',
       }),
       deliveryMethod: getFormSelect([
         ['fastest', 'Fastest'],

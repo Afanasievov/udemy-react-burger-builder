@@ -63,10 +63,14 @@ const input = (props) => {
       );
   }
 
+  const errorMsg = props.invalid && props.shouldValidate && props.touched
+    && (<span className={classes.ErrorText}>{props.errMsg}</span>);
+
   return (
     <div className={classes.Input}>
       <label className={classes.Label} htmlFor={props.id}>{props.label}</label>
       {inputElement}
+      {errorMsg}
     </div>
   );
 };
@@ -90,10 +94,12 @@ input.propTypes = {
   shouldValidate: PropTypes.shape({}).isRequired,
   touched: PropTypes.bool,
   changed: PropTypes.func.isRequired,
+  errMsg: PropTypes.string,
 };
 
 input.defaultProps = {
   touched: false,
+  errMsg: 'Input is invalid',
 };
 
 export default input;

@@ -30,3 +30,8 @@
   border: 1px solid #f00;
   background-color: salmon;
 }
+
+.ErrorText {
+  color: #f00;
+  font-size: small;
+}

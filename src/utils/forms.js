@@ -8,6 +8,7 @@ export const getFormInput = ({
   placeholder,
   value,
   validation,
+  errMsg,
 }) => ({
   elementType: 'input',
   elementConfig: {
@@ -17,6 +18,7 @@ export const getFormInput = ({
   },
   value,
   validation,
+  errMsg,
   isValid: false,
   touched: false,
 });
@@ -48,6 +50,7 @@ export const getFormElementsArray = (form, changeHandler) => Object.entries(form
       shouldValidate={value.validation}
       touched={value.touched}
       changed={changeHandler}
+      errMsg={value.errMsg}
     />
   ));
 
@@ -56,6 +59,9 @@ export const checkValidity = ({ value, rules, connectedValue }) => {
 
   Object.keys(rules).forEach((rule) => {
     switch (rule) {
+      case 'required':
+        isValid = isValid && value.trim() !== '';
+        break;
       case 'email':
         isValid = isValid && EMAIL_REGEX.test(value);
         break;
@@ -67,9 +73,6 @@ export const checkValidity = ({ value, rules, connectedValue }) => {
         break;
       case 'equalTo':
         isValid = isValid && value === connectedValue.value && connectedValue.isValid;
-        break;
-      case 'notEmpty':
-        isValid = isValid && value.trim() !== '';
         break;
       default:
         isValid = true;
