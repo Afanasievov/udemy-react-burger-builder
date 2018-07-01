@@ -20,13 +20,7 @@ export const authFail = error => ({
   error,
 });
 
-export const logout = () => {
-  localStorage.removeItem(LS.BB_TOKEN);
-  localStorage.removeItem(LS.BB_EXPIRATION_DATE);
-  localStorage.removeItem(LS.BB_USER_ID);
-
-  return { type: actionTypes.AUTH_LOGOUT };
-};
+export const logout = () => ({ type: actionTypes.AUTH_INITIATE_LOGOUT });
 
 const checkAuthTimeout = expirationTime => dispatch =>
   setTimeout(() => {
