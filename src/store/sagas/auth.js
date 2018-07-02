@@ -1,5 +1,5 @@
 import { delay } from 'redux-saga';
-import { put } from 'redux-saga/effects';
+import { put, call, all } from 'redux-saga/effects';
 import axios from 'axios';
 import qs from 'qs';
 
@@ -8,9 +8,11 @@ import * as LS from '../../constants/localStorage';
 import * as API from '../../constants/api';
 
 export function* logoutSaga() {
-  yield localStorage.removeItem(LS.BB_TOKEN);
-  yield localStorage.removeItem(LS.BB_EXPIRATION_DATE);
-  yield localStorage.removeItem(LS.BB_USER_ID);
+  yield all([
+    call([localStorage, 'removeItem'], LS.BB_TOKEN),
+    call([localStorage, 'removeItem'], LS.BB_EXPIRATION_DATE),
+    call([localStorage, 'removeItem'], LS.BB_USER_ID),
+  ]);
 
   yield put(actions.logoutSucceed());
 }
@@ -34,11 +36,13 @@ export function* authUserSaga(action) {
     const response = yield axios.post(`${API.AUTH.BASE_URL}${path}?${query}`, authData);
 
     const expirationDate = yield new Date(Date.now() + response.data.expiresIn * 1000);
-    yield localStorage.setItem(LS.BB_TOKEN, response.data.idToken);
-    yield localStorage.setItem(LS.BB_EXPIRATION_DATE, expirationDate);
-    yield localStorage.setItem(LS.BB_USER_ID, response.data.localId);
-    yield put(actions.authSuccess(response.data.idToken, response.data.localId));
-    yield put(actions.checkAuthTimeout(response.data.expiresIn));
+    yield all([
+      call([localStorage, 'setItem'], LS.BB_TOKEN, response.data.idToken),
+      call([localStorage, 'setItem'], LS.BB_EXPIRATION_DATE, expirationDate),
+      call([localStorage, 'setItem'], LS.BB_USER_ID, response.data.localId),
+      put(actions.authSuccess(response.data.idToken, response.data.localId)),
+      put(actions.checkAuthTimeout(response.data.expiresIn)),
+    ]);
   } catch (error) {
     yield put(actions.authFail(error.response.data.error));
   }
@@ -54,8 +58,10 @@ export function* authCheckStateSaga() {
       yield put(actions.logout());
     } else {
       const userId = yield localStorage.getItem(LS.BB_USER_ID);
-      yield put(actions.authSuccess(token, userId));
-      yield put(actions.checkAuthTimeout((expirationDate.getTime() - Date.now()) / 1000));
+      yield all([
+        put(actions.authSuccess(token, userId)),
+        put(actions.checkAuthTimeout((expirationDate.getTime() - Date.now()) / 1000)),
+      ]);
     }
   }
 }
