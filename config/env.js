@@ -2,26 +2,12 @@
 
 const fs = require('fs');
 const path = require('path');
-const chalk = require('chalk');
 const paths = require('./paths');
 
 // Make sure that including paths.js after env.js will read .env variables.
 delete require.cache[require.resolve('./paths')];
 
-// define allowed NODE_ENV
-const allowedNodeEnvs = [
-  'development',
-  'test',
-  'production',
-];
-
-process.env.NODE_ENV = process.env.NODE_ENV || process.argv[2] || allowedNodeEnvs[0];
-const NODE_ENV = process.env.NODE_ENV;
-
-if (!allowedNodeEnvs.includes(process.env.NODE_ENV)) {
-  console.log(chalk.red(chalk.bold(`NODE_ENV is incorrect! Allowed values: ${[...allowedNodeEnvs]}`)));
-  process.exit(1);
-}
+const NODE_ENV = process.env.NODE_ENV || 'development';
 
 // https://github.com/bkeepers/dotenv#what-other-env-files-can-i-use
 const dotenvFiles = [
@@ -41,7 +27,7 @@ const dotenvFiles = [
 // https://github.com/motdotla/dotenv-expand
 dotenvFiles.forEach((dotenvFile) => {
   if (fs.existsSync(dotenvFile)) {
-    require('dotenv-expand')(require('dotenv').config({
+    require('dotenv-expand')(require('dotenv').config({ // eslint-disable-line global-require
       path: dotenvFile,
     }));
   }
@@ -72,7 +58,7 @@ function getClientEnvironment(publicUrl) {
     .filter(key => REACT_APP.test(key))
     .reduce(
       (env, key) => {
-        env[key] = process.env[key];
+        env[key] = process.env[key]; // eslint-disable-line no-param-reassign
         return env;
       },
       {
@@ -89,7 +75,7 @@ function getClientEnvironment(publicUrl) {
   // Stringify all values so we can feed into Webpack DefinePlugin
   const stringified = {
     'process.env': Object.keys(raw).reduce((env, key) => {
-      env[key] = JSON.stringify(raw[key]);
+      env[key] = JSON.stringify(raw[key]); // eslint-disable-line no-param-reassign
       return env;
     }, {}),
   };

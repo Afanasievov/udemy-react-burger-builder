@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "allowSyntheticDefaultImports": false,
+    "baseUrl": "./",
+    "paths": {
+      "@src/*": ["src/*"],
+      "@assets/*": ["src/assets/*"],
+      "@components/*": ["src/components/*"],
+      "@constants/*": ["src/constants/*"],
+      "@containers/*": ["src/containers/*"],
+      "@hoc/*": ["src/hoc/*"],
+      "@actions/*": ["src/store/actions/*"],
+      "@reducers/*": ["src/store/reducers/*"],
+      "@sagas/*": ["src/store/sagas/*"],
+      "@utils/*": ["src/utils/*"],
+    }
+  },
+  "include": ["src"]
+}

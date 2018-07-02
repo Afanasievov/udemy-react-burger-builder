@@ -21,9 +21,10 @@
     "eslint": "4.10.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-config-react-app": "^2.1.0",
+    "eslint-import-resolver-webpack": "^0.10.1",
     "eslint-loader": "1.9.0",
     "eslint-plugin-flowtype": "2.39.1",
-    "eslint-plugin-import": "2.8.0",
+    "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "5.1.1",
     "eslint-plugin-react": "7.4.0",
     "extract-text-webpack-plugin": "3.0.2",
@@ -103,7 +104,16 @@
       "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs)$"
     ],
     "moduleNameMapper": {
-      "^react-native$": "react-native-web"
+      "^@src(.*)$": "<rootDir>/src$1",
+      "^@assets(.*)$": "<rootDir>/src/assets$1",
+      "^@components(.*)$": "<rootDir>/src/components$1",
+      "^@constants(.*)$": "<rootDir>/src/constants$1",
+      "^@containers(.*)$": "<rootDir>/src/containers$1",
+      "^@hoc(.*)$": "<rootDir>/src/hoc$1",
+      "^@actions(.*)$": "<rootDir>/src/store/actions$1",
+      "^@reducers(.*)$": "<rootDir>/src/store/reducers$1",
+      "^@sagas(.*)$": "<rootDir>/src/store/sagas$1",
+      "^@utils(.*)$": "<rootDir>/src/utils$1"
     },
     "moduleFileExtensions": [
       "web.js",
