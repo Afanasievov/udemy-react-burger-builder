@@ -3,17 +3,17 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 
-import Button from '../../components/UI/Button/Button';
-import Spinner from '../../components/UI/Spinner/Spinner';
+import Button from '@components/UI/Button/Button';
+import Spinner from '@components/UI/Spinner/Spinner';
 import {
   getFormInput,
   getFormElementsArray,
   checkValidity,
-} from '../../utils/forms';
+} from '@utils/forms';
+import * as actions from '@actions';
+import * as PATHS from '@constants/paths';
+import { updateObject } from '@utils/objects';
 import classes from './Auth.css';
-import * as actions from '../../store/actions';
-import * as PATHS from '../../constants/paths';
-import { updateObject } from '../../utils/objects';
 
 class Auth extends Component {
   state = {

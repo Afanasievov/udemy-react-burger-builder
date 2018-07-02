@@ -2,19 +2,19 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import classes from './ContactData.css';
-import Button from '../../../components/UI/Button/Button';
-import Spinner from '../../../components/UI/Spinner/Spinner';
-import axios from '../../../axios-orders';
-import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
-import * as actions from '../../../store/actions';
+import axios from '@src/axios-orders';
+import * as actions from '@actions';
+import Button from '@components/UI/Button/Button';
+import Spinner from '@components/UI/Spinner/Spinner';
+import withErrorHandler from '@hoc/withErrorHandler/withErrorHandler';
 import {
   getFormInput,
   getFormSelect,
   getFormElementsArray,
   checkValidity,
-} from '../../../utils/forms';
-import { updateObject } from '../../../utils/objects';
+} from '@utils/forms';
+import { updateObject } from '@utils/objects';
+import classes from './ContactData.css';
 
 class ContactData extends Component {
   state = {

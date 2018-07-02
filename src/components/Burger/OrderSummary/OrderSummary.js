@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Aux from '../../../hoc/Auxiliary/Aux';
-import Button from '../../UI/Button/Button';
-import { findKeyById } from '../../../utils/objects';
+import Aux from '@hoc/Auxiliary/Aux';
+import Button from '@components/UI/Button/Button';
+import { findKeyById } from '@utils/objects';
 
 const orderSummary = (props) => {
   const ingredientSummary = props.orderIngredients

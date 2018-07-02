@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { countArrayElements } from '@utils/arrays';
+import { findKeyById } from '@utils/objects';
 import classes from './Order.css';
-import { countArrayElements } from '../../utils/arrays';
-import { findKeyById } from '../../utils/objects';
 
 const order = (props) => {
   const ingredientOutput = props.ingredients

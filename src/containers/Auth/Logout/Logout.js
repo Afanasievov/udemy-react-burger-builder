@@ -3,8 +3,8 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import * as actions from '../../../store/actions';
-import * as PATHS from '../../../constants/paths';
+import * as actions from '@actions';
+import * as PATHS from '@constants/paths';
 
 class Logout extends Component {
   componentDidMount() {

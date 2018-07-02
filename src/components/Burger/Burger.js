@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import TransitionGroup from 'react-transition-group/TransitionGroup';
 import CSSTransition from 'react-transition-group/CSSTransition';
 
+import { findKeyById } from '@utils/objects';
 import classes from './Burger.css';
 import BurgerIngredient from './BurgerIngredient/BurgerIngredient';
-import { findKeyById } from '../../utils/objects';
 
 const burger = (props) => {
   let transformedOrderedIngredients = <p>Please, start adding ingredients!</p>;

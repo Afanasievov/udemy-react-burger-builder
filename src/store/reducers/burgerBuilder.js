@@ -1,7 +1,7 @@
 import uuid from 'uuid/v4';
 
-import * as actionTypes from '../actions/actionTypes';
-import { updateObject, findKeyById } from '../../utils/objects';
+import * as actionTypes from '@actions/actionTypes';
+import { updateObject, findKeyById } from '@utils/objects';
 
 const initialState = {
   ingredients: null,

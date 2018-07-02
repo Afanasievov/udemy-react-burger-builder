@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import Order from '../../components/Order/Order';
-import Spinner from '../../components/UI/Spinner/Spinner';
-import axios from '../../axios-orders';
-import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
-import * as actions from '../../store/actions';
+import axios from '@src/axios-orders';
+import * as actions from '@actions';
+import withErrorHandler from '@hoc/withErrorHandler/withErrorHandler';
+import Order from '@components/Order/Order';
+import Spinner from '@components/UI/Spinner/Spinner';
 
 class Orders extends Component {
   componentDidMount() {

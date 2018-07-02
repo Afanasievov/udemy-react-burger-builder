@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Input from '../components/UI/Input/Input';
-import { EMAIL_REGEX } from '../constants/app';
+import Input from '@components/UI/Input/Input';
+import { EMAIL_REGEX } from '@constants/app';
 
 export const getFormInput = ({
   type,

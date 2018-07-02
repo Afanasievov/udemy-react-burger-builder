@@ -3,9 +3,9 @@ import { put, call, all } from 'redux-saga/effects';
 import axios from 'axios';
 import qs from 'qs';
 
-import * as actions from '../actions';
-import * as LS from '../../constants/localStorage';
-import * as API from '../../constants/api';
+import * as actions from '@actions';
+import * as LS from '@constants/localStorage';
+import * as API from '@constants/api';
 
 export function* logoutSaga() {
   yield all([

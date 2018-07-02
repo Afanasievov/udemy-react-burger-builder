@@ -1,9 +1,9 @@
 import { put } from 'redux-saga/effects';
-import axios from '../../axios-orders';
+import axios from '@src/axios-orders';
 
-import * as actions from '../actions';
-import { BURGER_BUILDER } from '../../constants/api';
-import { MAX_ING_ADD } from '../../constants/app';
+import * as actions from '@actions';
+import { BURGER_BUILDER } from '@constants/api';
+import { MAX_ING_ADD } from '@constants/app';
 
 export function* initIngredientsSaga() {
   try {

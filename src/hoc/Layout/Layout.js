@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import Aux from '../Auxiliary/Aux';
+import Aux from '@hoc/Auxiliary/Aux';
+import Toolbar from '@components/Navigation/Toolbar/Toolbar';
+import SideDrawer from '@components/Navigation/SideDrawer/SideDrawer';
 import classes from './Layout.css';
-import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
-import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
 
 class Layout extends Component {
   state = {

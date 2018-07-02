@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import CSSTransition from 'react-transition-group/CSSTransition';
 
+import Aux from '@hoc/Auxiliary/Aux';
+import Backdrop from '@components/UI/Backdrop/Backdrop';
+import { TOAST_TIMEOUT } from '@constants/app';
 import classes from './Toast.css';
-import Aux from '../../../hoc/Auxiliary/Aux';
-import Backdrop from '../Backdrop/Backdrop';
-import { TOAST_TIMEOUT } from '../../../constants/app';
 
 const animationTiming = {
   enter: 700,

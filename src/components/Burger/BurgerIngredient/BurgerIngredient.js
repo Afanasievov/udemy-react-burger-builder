@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { capitalize } from '@utils/strings';
 import classes from './BurgerIngredient.css';
-import { capitalize } from '../../../utils/strings';
 
 const burgerIngredient = (props) => {
   switch (props.type) {

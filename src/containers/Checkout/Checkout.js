@@ -3,9 +3,9 @@ import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
+import CheckoutSummary from '@components/Order/CheckoutSummary/CheckoutSummary';
+import * as PATHS from '@constants/paths';
 import ContactData from './ContactData/ContactData';
-import * as PATHS from '../../constants/paths';
 
 class Checkout extends Component {
   checkoutCancelledHandler = () => {

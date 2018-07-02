@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import CSSTransition from 'react-transition-group/CSSTransition';
 
+import Aux from '@hoc/Auxiliary/Aux';
+import Backdrop from '@components/UI/Backdrop/Backdrop';
 import classes from './Modal.css';
-import Aux from '../../../hoc/Auxiliary/Aux';
-import Backdrop from '../Backdrop/Backdrop';
 
 const animationTiming = {
   enter: 700,

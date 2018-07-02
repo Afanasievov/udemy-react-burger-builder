@@ -2,18 +2,18 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import Aux from '../../hoc/Auxiliary/Aux';
-import Burger from '../../components/Burger/Burger';
-import BuildControls from '../../components/Burger/BuildControls/BuildControls';
-import Modal from '../../components/UI/Modal/Modal';
-import Toast from '../../components/UI/Toast/Toast';
-import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
-import Spinner from '../../components/UI/Spinner/Spinner';
-import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
-import * as actions from '../../store/actions';
-import axios from '../../axios-orders';
-import * as PATHS from '../../constants/paths';
-import { MAX_ING_ADD } from '../../constants/app';
+import withErrorHandler from '@hoc/withErrorHandler/withErrorHandler';
+import Aux from '@hoc/Auxiliary/Aux';
+import Burger from '@components/Burger/Burger';
+import BuildControls from '@components/Burger/BuildControls/BuildControls';
+import Modal from '@components/UI/Modal/Modal';
+import Toast from '@components/UI/Toast/Toast';
+import OrderSummary from '@components/Burger/OrderSummary/OrderSummary';
+import Spinner from '@components/UI/Spinner/Spinner';
+import axios from '@src/axios-orders';
+import * as PATHS from '@constants/paths';
+import * as actions from '@actions';
+import { MAX_ING_ADD } from '@constants/app';
 
 export class BurgerBuilder extends Component {
   componentDidMount() {

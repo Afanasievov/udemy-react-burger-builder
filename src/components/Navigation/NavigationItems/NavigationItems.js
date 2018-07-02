@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import * as PATHS from '@constants/paths';
 import classes from './NavigationItems.css';
 import NavigationItem from './NavigationItem/NavigationItem';
-import * as PATHS from '../../../constants/paths';
 
 const navigationItems = props => (
   <ul className={classes.NavigationItems}>

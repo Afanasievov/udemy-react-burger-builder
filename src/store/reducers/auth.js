@@ -1,6 +1,6 @@
-import * as actionTypes from '../actions/actionTypes';
-import { updateObject } from '../../utils/objects';
-import * as PATHS from '../../constants/paths';
+import * as actionTypes from '@actions/actionTypes';
+import { updateObject } from '@utils/objects';
+import * as PATHS from '@constants/paths';
 
 export const initialState = {
   token: null,
