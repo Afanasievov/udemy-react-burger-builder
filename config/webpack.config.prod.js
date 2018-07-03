@@ -93,8 +93,8 @@ module.exports = {
       // Make sure your source files are compiled, as they will not be processed in any way.
       new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson]),
     ],
-    extensions: webpackConfigResolve.extensions,
-    alias: webpackConfigResolve.alias,
+    alias: webpackConfigResolve.resolve.alias,
+    extensions: webpackConfigResolve.resolve.extensions,
   },
   module: {
     strictExportPresence: true,

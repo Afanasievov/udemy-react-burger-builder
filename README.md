@@ -12,7 +12,8 @@ You can find the most recent version of this guide [here]3(https://github.com/fa
 - Create a new config webpack file: *./config/webpack.config.resolve.js*:
 
 ```javascript
-  module.exports = {
+module.exports = {
+  resolve: {
     extensions: ['.web.js', '.mjs', '.js', '.json', '.web.jsx', '.jsx'],
     alias: {
       '@src': path.resolve(__dirname, '../src/'),
@@ -26,7 +27,8 @@ You can find the most recent version of this guide [here]3(https://github.com/fa
       '@sagas': path.resolve(__dirname, '../src/store/sagas'),
       '@utils': path.resolve(__dirname, '../src/utils'),
     },
-  };
+  },
+};
 ```
 
 - Modify the *./config/webpack.config.dev.js* and *./webpack.config.prod.js* files
@@ -47,8 +49,8 @@ module.exports = {
   resolve: {
     ...
 
-    alias: webpackConfigResolve.alias,
-    extensions: webpackConfigResolve.extensions,
+    alias: webpackConfigResolve.resolve.alias,
+    extensions: webpackConfigResolve.resolve.extensions,
   }
 }
 ```
@@ -86,16 +88,10 @@ npm i eslint-plugin-import eslint-import-resolver-webpack
 "settings": {
   "import/resolver": {
     "webpack": {
-      "config": "./config/webpack.config.dev.js"
+      "config": "./config/webpack.config.resolve.js"
     }
   }
 }
-```
-
-- Add a default definition to NODE_ENV in *./config/env.js*
-
-```javascript
-const NODE_ENV = process.env.NODE_ENV || 'development';
 ```
 
 ### VS Code
