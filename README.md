@@ -96,7 +96,7 @@ npm i eslint-plugin-import eslint-import-resolver-webpack
 
 ### VS Code
 
-Create a new config VS Code file: *.jsconfig.json*:
+Create a new config VS Code file: *jsconfig.json*:
 
 ```javascript
 {
